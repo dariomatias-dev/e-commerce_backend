@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PhysicalPersonUsers {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  dateOfBirth     DateTime
+  phone           String   @unique
+  cpf             String   @unique
+  rg              String   @unique
+  email           String   @unique
+  state           String
+  city            String
+  address         String
+  cep             String
+  password        String
+  termsOfUse      Boolean
+  receiveMessages Boolean
+  adminPassword   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("physicalPersonUser")
+}
+
+model LegalPersonUsers {
+  id                String  @id @default(uuid())
+  fantasyName       String
+  corporateName     String
+  cnpj              String  @unique
+  stateRegistration String  @unique
+  cpf               String  @unique
+  rg                String  @unique
+  email             String  @unique
+  phone             String  @unique
+  state             String
+  city              String
+  address           String
+  cep               String
+  password          String
+  termsOfUse        Boolean
+  receiveMessages   Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("legalPersonUser")
+}
+
+model Wishlists {
+  userId     String   @id @default(uuid())
+  productIds String[]
+
+  @@map("wishlist")
+}
+
+model Carts {
+  userId     String   @id @default(uuid())
+  productIds String[]
+
+  @@map("cart")
+}
+
+model NewsletterSubscribers {
+  email String @id @default(uuid())
+}
+
+model Categories {
+  id   String @id @default(uuid())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("category")
+}
+
+model Products {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  description    String
+  amountOfImages Int
+  price          String
+  categoryIds    String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("product")
+}
+
+model Orders {
+  id          String       @id @default(uuid())
+  userId      String
+  orderDay    DateTime     @default(now())
+  orderItems  OrderItems[]
+  totalAmount String
+
+  updatedAt DateTime @updatedAt
+
+  @@map("order")
+}
+
+model OrderItems {
+  id        String @id @default(uuid())
+  productId String
+  quantity  Int
+  unitPrice String
+
+  orderId String
+  orders  Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@map("orderItem")
+}

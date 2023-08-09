@@ -8,7 +8,9 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+
 import { ProductService } from './product.service';
+
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -35,7 +37,7 @@ export class ProductController {
     return this.productService.findAll(+skip, +take);
   }
 
-  @Get('products-category/:id')
+  @Get('products-by-category/:id')
   findAllByCategory(
     @Param('id') id: string,
     @Query('skip') skip: number,
@@ -46,9 +48,41 @@ export class ProductController {
     return this.productService.findAllByCategory(id, +skip, +take);
   }
 
-  @Get('products-category/:id/amount')
+  @Get('products/by-category/:id/amount')
   findAllByCategoryAmount(@Param('id') id: string) {
     return this.productService.findAllByCategoryAmount(id);
+  }
+
+  @Get('products-by-categories/amount')
+  findAllByCategoriesAmount(
+    @Query('productId') productId: string,
+    @Query('categoryIds') categoryIds: string,
+  ) {
+    const categoryIdsArray = categoryIds.split(',');
+
+    return this.productService.findAllByCategoriesAmount(
+      productId,
+      categoryIdsArray,
+    );
+  }
+
+  @Get('products-by-categories')
+  findAllByCategories(
+    @Query('productId') productId: string,
+    @Query('categoryIds') categoryIds: string,
+    @Query('skip') skip: number,
+    @Query('take') take: number | undefined,
+  ) {
+    if (take === undefined) take = 10;
+
+    const categoryIdsArray = categoryIds.split(',');
+
+    return this.productService.findAllByCategories(
+      productId,
+      categoryIdsArray,
+      +skip,
+      +take,
+    );
   }
 
   @Post('product')

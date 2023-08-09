@@ -60,6 +60,56 @@ export class ProductService {
     return amount;
   }
 
+  async findAllByCategoriesAmount(productId: string, categoryIds: string[]) {
+    const amount = await this.prisma.products.count({
+      where: {
+        AND: [
+          {
+            categoryIds: {
+              hasSome: categoryIds,
+            },
+          },
+          {
+            NOT: {
+              id: productId,
+            },
+          },
+        ],
+      },
+    });
+
+    return amount;
+  }
+
+  async findAllByCategories(
+    productId: string,
+    categoryIds: string[],
+    skip: number,
+    take: number,
+  ) {
+    const products = await this.prisma.products.findMany({
+      take,
+      skip,
+      select: productSelectionUtil,
+      where: {
+        AND: [
+          {
+            categoryIds: {
+              hasSome: categoryIds,
+            },
+          },
+          {
+            NOT: {
+              id: productId,
+            },
+          },
+        ],
+      },
+    });
+
+    return { products, skip: skip + take };
+  }
+
   async create(createProductDto: CreateProductDto) {
     const product = await this.prisma.products.create({
       data: createProductDto,

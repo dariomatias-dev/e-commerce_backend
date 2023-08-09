@@ -91,7 +91,7 @@ model Products {
   name           String   @unique
   description    String
   amountOfImages Int
-  price          String
+  price          Decimal
   categoryIds    String[]
 
   createdAt DateTime @default(now())

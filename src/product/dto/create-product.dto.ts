@@ -32,9 +32,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   amountOfImages: number;
 
-  @IsString()
+  @Max(100000)
+  @Min(1)
+  @IsNumber()
   @IsNotEmpty()
-  price: string;
+  price: number;
 
   @ArrayMaxSize(10)
   @ArrayMinSize(1)

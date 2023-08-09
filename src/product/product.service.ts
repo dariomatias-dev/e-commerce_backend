@@ -17,6 +17,12 @@ export class ProductService {
     return product;
   }
 
+  async findCount() {
+    const amount = await this.prisma.products.count();
+
+    return amount;
+  }
+
   async findAll() {
     const products = await this.prisma.products.findMany();
 

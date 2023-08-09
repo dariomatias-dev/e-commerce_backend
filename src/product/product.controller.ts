@@ -20,6 +20,11 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
+  @Get('products/amount')
+  findCount() {
+    return this.productService.findCount();
+  }
+
   @Get('products')
   findAll() {
     return this.productService.findAll();

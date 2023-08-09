@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -26,8 +27,28 @@ export class ProductController {
   }
 
   @Get('products')
-  findAll() {
-    return this.productService.findAll();
+  findAll(
+    @Query('skip') skip: number,
+    @Query('take') take: number | undefined,
+  ) {
+    if (take === undefined) take = 10;
+    return this.productService.findAll(+skip, +take);
+  }
+
+  @Get('products-category/:id')
+  findAllByCategory(
+    @Param('id') id: string,
+    @Query('skip') skip: number,
+    @Query('take') take: number | undefined,
+  ) {
+    if (take === undefined) take = 10;
+
+    return this.productService.findAllByCategory(id, +skip, +take);
+  }
+
+  @Get('products-category/:id/amount')
+  findAllByCategoryAmount(@Param('id') id: string) {
+    return this.productService.findAllByCategoryAmount(id);
   }
 
   @Post('product')

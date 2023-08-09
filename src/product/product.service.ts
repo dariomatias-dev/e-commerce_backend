@@ -4,6 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
+import { productSelectionUtil } from 'src/common/utils/productDataSelection.util';
 
 @Injectable()
 export class ProductService {
@@ -23,10 +24,40 @@ export class ProductService {
     return amount;
   }
 
-  async findAll() {
-    const products = await this.prisma.products.findMany();
+  async findAll(skip: number, take: number) {
+    const products = await this.prisma.products.findMany({
+      skip,
+      take,
+    });
 
-    return products;
+    return { products, skip: skip + take };
+  }
+
+  async findAllByCategory(id: string, skip: number, take: number) {
+    const products = await this.prisma.products.findMany({
+      take,
+      skip,
+      select: productSelectionUtil,
+      where: {
+        categoryIds: {
+          hasSome: [id],
+        },
+      },
+    });
+
+    return { products, skip: skip + take };
+  }
+
+  async findAllByCategoryAmount(id: string) {
+    const amount = await this.prisma.products.count({
+      where: {
+        categoryIds: {
+          hasSome: [id],
+        },
+      },
+    });
+
+    return amount;
   }
 
   async create(createProductDto: CreateProductDto) {

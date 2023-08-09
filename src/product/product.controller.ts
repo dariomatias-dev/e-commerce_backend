@@ -12,15 +12,19 @@ import {
 import { ProductService } from './product.service';
 
 import { CreateProductDto } from './dto/create-product.dto';
+import { FindAllByCategoriesDto } from './dto/find-all-by-categories.dto';
+import { PaginationDto } from './dto/pagination.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+
+import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
 
 @Controller()
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('product/:id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(id);
+  findOne(@Param() params: UuidParamDto) {
+    return this.productService.findOne(params.id);
   }
 
   @Get('products/amount')
@@ -29,50 +33,51 @@ export class ProductController {
   }
 
   @Get('products')
-  findAll(
-    @Query('skip') skip: number,
-    @Query('take') take: number | undefined,
-  ) {
+  findAll(@Query() queries: PaginationDto) {
+    let take = queries.take;
+
     if (take === undefined) take = 10;
-    return this.productService.findAll(+skip, +take);
+    return this.productService.findAll(+queries.skip, +take);
   }
 
   @Get('products-by-category/:id')
   findAllByCategory(
-    @Param('id') id: string,
-    @Query('skip') skip: number,
-    @Query('take') take: number | undefined,
+    @Param() params: UuidParamDto,
+    @Query() queries: PaginationDto,
   ) {
+    let take = queries.take;
+
     if (take === undefined) take = 10;
 
-    return this.productService.findAllByCategory(id, +skip, +take);
+    return this.productService.findAllByCategory(
+      params.id,
+      +queries.skip,
+      +take,
+    );
   }
 
-  @Get('products/by-category/:id/amount')
+  @Get('products-by-category/:id/amount')
   findAllByCategoryAmount(@Param('id') id: string) {
     return this.productService.findAllByCategoryAmount(id);
   }
 
   @Get('products-by-categories/amount')
-  findAllByCategoriesAmount(
-    @Query('productId') productId: string,
-    @Query('categoryIds') categoryIds: string,
-  ) {
-    const categoryIdsArray = categoryIds.split(',');
+  findAllByCategoriesAmount(@Query() queries: FindAllByCategoriesDto) {
+    const categoryIdsArray = queries.categoryIds.split(',');
 
     return this.productService.findAllByCategoriesAmount(
-      productId,
+      queries.productId,
       categoryIdsArray,
     );
   }
 
   @Get('products-by-categories')
   findAllByCategories(
-    @Query('productId') productId: string,
-    @Query('categoryIds') categoryIds: string,
-    @Query('skip') skip: number,
-    @Query('take') take: number | undefined,
+    @Query() queries: FindAllByCategoriesDto & PaginationDto,
   ) {
+    const { productId, categoryIds, skip } = queries;
+    let take = queries.take;
+
     if (take === undefined) take = 10;
 
     const categoryIdsArray = categoryIds.split(',');
@@ -91,12 +96,15 @@ export class ProductController {
   }
 
   @Patch('product/:id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(id, updateProductDto);
+  update(
+    @Param() params: UuidParamDto,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    return this.productService.update(params.id, updateProductDto);
   }
 
   @Delete('product/:id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(id);
+  remove(@Param() params: UuidParamDto) {
+    return this.productService.remove(params.id);
   }
 }

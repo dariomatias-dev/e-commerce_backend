@@ -24,6 +24,30 @@ export class ProductService {
     return amount;
   }
 
+  async findByIds(
+    productIds: Array<string>,
+    skip: number | undefined,
+    take: number | undefined,
+  ) {
+    const products = await this.prisma.products.findMany({
+      skip,
+      take,
+      select: productSelectionUtil,
+      where: {
+        id: {
+          in: productIds,
+        },
+      },
+    });
+
+    if (skip === undefined) return products;
+
+    return {
+      products,
+      skip: skip + take,
+    };
+  }
+
   async findAll(skip: number, take: number) {
     const products = await this.prisma.products.findMany({
       skip,

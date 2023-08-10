@@ -32,6 +32,27 @@ export class ProductController {
     return this.productService.findCount();
   }
 
+  @Get('products-by-ids')
+  findByIds(
+    @Query('productIds') productIds: string,
+    @Query('skip') skip: number | undefined,
+    @Query('take') take: number | undefined,
+  ) {
+    if (skip !== undefined) {
+      skip = +skip;
+
+      if (take === undefined) take = 10;
+      else if (typeof take === 'string') take = +take;
+    }
+
+    let selectedProductIds: Array<string> = [];
+    if (productIds) {
+      selectedProductIds = productIds.split(',');
+    }
+
+    return this.productService.findByIds(selectedProductIds, skip, take);
+  }
+
   @Get('products')
   findAll(@Query() queries: PaginationDto) {
     let take = queries.take;

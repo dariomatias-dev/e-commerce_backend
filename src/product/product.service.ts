@@ -52,6 +52,7 @@ export class ProductService {
     const products = await this.prisma.products.findMany({
       skip,
       take,
+      select: productSelectionUtil,
     });
 
     return { products, skip: skip + take };

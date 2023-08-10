@@ -10,18 +10,20 @@ import { productSelectionUtil } from 'src/common/utils/productDataSelection.util
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async create(createProductDto: CreateProductDto) {
+    const product = await this.prisma.products.create({
+      data: createProductDto,
+    });
+
+    return product;
+  }
+
   async findOne(id: string) {
     const product = await this.prisma.products.findUnique({
       where: { id },
     });
 
     return product;
-  }
-
-  async findCount() {
-    const amount = await this.prisma.products.count();
-
-    return amount;
   }
 
   async findByIds(
@@ -46,16 +48,6 @@ export class ProductService {
       products,
       skip: skip + take,
     };
-  }
-
-  async findAll(skip: number, take: number) {
-    const products = await this.prisma.products.findMany({
-      skip,
-      take,
-      select: productSelectionUtil,
-    });
-
-    return { products, skip: skip + take };
   }
 
   async findAllByCategory(id: string, skip: number, take: number) {
@@ -135,12 +127,20 @@ export class ProductService {
     return { products, skip: skip + take };
   }
 
-  async create(createProductDto: CreateProductDto) {
-    const product = await this.prisma.products.create({
-      data: createProductDto,
+  async findCount() {
+    const amount = await this.prisma.products.count();
+
+    return amount;
+  }
+
+  async findAll(skip: number, take: number) {
+    const products = await this.prisma.products.findMany({
+      skip,
+      take,
+      select: productSelectionUtil,
     });
 
-    return product;
+    return { products, skip: skip + take };
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {

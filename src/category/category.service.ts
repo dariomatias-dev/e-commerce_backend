@@ -7,6 +7,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async create(createCategoryDto: CreateCategoryDto) {
+    const category = await this.prisma.categories.create({
+      data: createCategoryDto,
+    });
+
+    return category;
+  }
+
   async findOne(id: string) {
     const category = await this.prisma.categories.findUnique({
       where: { id },
@@ -19,14 +27,6 @@ export class CategoryService {
     const categories = await this.prisma.categories.findMany();
 
     return categories;
-  }
-
-  async create(createCategoryDto: CreateCategoryDto) {
-    const category = await this.prisma.categories.create({
-      data: createCategoryDto,
-    });
-
-    return category;
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {

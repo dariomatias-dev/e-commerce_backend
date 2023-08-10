@@ -22,14 +22,14 @@ import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Post('product')
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productService.create(createProductDto);
+  }
+
   @Get('product/:id')
   findOne(@Param() { id }: UuidParamDto) {
     return this.productService.findOne(id);
-  }
-
-  @Get('products/amount')
-  findCount() {
-    return this.productService.findCount();
   }
 
   @Get('products-by-ids')
@@ -51,12 +51,6 @@ export class ProductController {
     }
 
     return this.productService.findByIds(selectedProductIds, skip, take);
-  }
-
-  @Get('products')
-  findAll(@Query() { skip, take }: PaginationDto) {
-    if (take === undefined) take = 10;
-    return this.productService.findAll(+skip, +take);
   }
 
   @Get('products-by-category/:id')
@@ -108,9 +102,15 @@ export class ProductController {
     );
   }
 
-  @Post('product')
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @Get('products/amount')
+  findCount() {
+    return this.productService.findCount();
+  }
+
+  @Get('products')
+  findAll(@Query() { skip, take }: PaginationDto) {
+    if (take === undefined) take = 10;
+    return this.productService.findAll(+skip, +take);
   }
 
   @Patch('product/:id')

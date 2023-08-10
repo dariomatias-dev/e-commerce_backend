@@ -18,6 +18,11 @@ import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Post('category')
+  create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoryService.create(createCategoryDto);
+  }
+
   @Get('category/:id')
   findOne(@Param() { id }: UuidParamDto) {
     return this.categoryService.findOne(id);
@@ -26,11 +31,6 @@ export class CategoryController {
   @Get('categories')
   findAll() {
     return this.categoryService.findAll();
-  }
-
-  @Post('category')
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
   }
 
   @Patch('category/:id')

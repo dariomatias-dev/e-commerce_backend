@@ -8,7 +8,7 @@ export class OrderService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createOrderDto: CreateOrderDto) {
-    return `This action creates a order`;
+    return createOrderDto;
   }
 
   async findOne(id: string) {
@@ -25,7 +25,11 @@ export class OrderService {
   }
 
   async findAll() {
-    const orders = await this.prisma.orders.findMany();
+    const orders = await this.prisma.orders.findMany({
+      include: {
+        orderItems: true,
+      },
+    });
 
     return orders;
   }

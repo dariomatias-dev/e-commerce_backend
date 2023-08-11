@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class WishlistService {
-  create(createWishlistDto: CreateWishlistDto) {
-    return 'This action adds a new wishlist';
+  constructor(private readonly prisma: PrismaService) {}
+  async findOne(id: string) {
+    const result = await this.prisma.wishlists.findUnique({
+      where: {
+        userId: id,
+      },
+    });
+
+    return result?.productIds ?? null;
   }
 
-  findAll() {
-    return `This action returns all wishlist`;
+  async update(id: string, updateWishlistDto: UpdateWishlistDto) {
+    const wishlist = await this.prisma.wishlists.update({
+      where: {
+        userId: id,
+      },
+      data: updateWishlistDto,
+    });
+
+    return wishlist;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} wishlist`;
-  }
+  async remove(id: string) {
+    const wishlist = await this.prisma.wishlists.delete({
+      where: {
+        userId: id,
+      },
+    });
 
-  update(id: number, updateWishlistDto: UpdateWishlistDto) {
-    return `This action updates a #${id} wishlist`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} wishlist`;
+    return wishlist;
   }
 }

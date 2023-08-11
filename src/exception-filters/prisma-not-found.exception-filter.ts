@@ -8,7 +8,7 @@ export class PrismaNotFoundExceptionFilter implements ExceptionFilter {
     const context = host.switchToHttp();
     const response = context.getResponse<FastifyReply>();
 
-    const messageError = exception?.meta.case ?? exception.message;
+    const messageError = exception?.meta.cause ?? exception.message;
 
     exception.code === 'P2025'
       ? response.status(404).send({

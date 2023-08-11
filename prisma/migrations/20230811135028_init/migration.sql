@@ -85,7 +85,7 @@ CREATE TABLE "product" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "amountOfImages" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
+    "price" DECIMAL(65,30) NOT NULL,
     "categoryIds" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE "order" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "orderDay" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "totalAmount" TEXT NOT NULL,
+    "totalAmount" DOUBLE PRECISION NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
@@ -109,7 +109,7 @@ CREATE TABLE "orderItem" (
     "id" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "unitPrice" TEXT NOT NULL,
+    "unitPrice" DOUBLE PRECISION NOT NULL,
     "orderId" TEXT NOT NULL,
 
     CONSTRAINT "orderItem_pkey" PRIMARY KEY ("id")

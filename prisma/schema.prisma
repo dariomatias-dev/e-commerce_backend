@@ -105,7 +105,7 @@ model Orders {
   userId      String
   orderDay    DateTime     @default(now())
   orderItems  OrderItems[]
-  totalAmount String
+  totalAmount Float
 
   updatedAt DateTime @updatedAt
 
@@ -116,7 +116,7 @@ model OrderItems {
   id        String @id @default(uuid())
   productId String
   quantity  Int
-  unitPrice String
+  unitPrice Float
 
   orderId String
   orders  Orders @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)

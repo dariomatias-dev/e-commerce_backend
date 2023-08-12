@@ -8,16 +8,16 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { OrderItem } from './order-item.dto';
+import { CreateOrderItemDto } from './create-order-item.dto';
 
 export class CreateOrderDto {
   @IsUUID()
   userId: string;
 
-  @Type(() => OrderItem)
+  @Type(() => CreateOrderItemDto)
   @ValidateNested()
   @ArrayNotEmpty()
-  orderItems: OrderItem[];
+  orderItems: CreateOrderItemDto[];
 
   @Min(1)
   @IsNumber()

@@ -83,4 +83,12 @@ export class OrderService {
 
     return order;
   }
+
+  async removeOrderItem(id: string) {
+    const result = await this.prisma.orderItems.delete({
+      where: { id },
+    });
+
+    return result;
+  }
 }

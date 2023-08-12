@@ -55,4 +55,9 @@ export class OrderController {
   remove(@Param() { id }: UuidParamDto) {
     return this.orderService.remove(id);
   }
+
+  @Delete('order/item/:id')
+  removeOrderItem(@Param() { id }: UuidParamDto) {
+    return this.orderService.removeOrderItem(id);
+  }
 }

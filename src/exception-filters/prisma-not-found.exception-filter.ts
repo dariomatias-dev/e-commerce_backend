@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { FastifyReply } from 'fastify';
+import { Prisma } from '@prisma/client';
 
 @Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaNotFoundExceptionFilter implements ExceptionFilter {

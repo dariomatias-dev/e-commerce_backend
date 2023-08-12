@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()

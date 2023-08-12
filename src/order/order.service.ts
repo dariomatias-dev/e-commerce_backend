@@ -5,6 +5,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateOrderItemDto } from './dto/create-order-item.dto';
 
 @Injectable()
 export class OrderService {
@@ -61,6 +62,21 @@ export class OrderService {
     });
 
     return order;
+  }
+
+  async updateOrderWithItem(id: string, createOrderItem: CreateOrderItemDto) {
+    const result = await this.prisma.orders.update({
+      where: {
+        id,
+      },
+      data: {
+        orderItems: {
+          create: createOrderItem,
+        },
+      },
+    });
+
+    return result;
   }
 
   async updateOrderItem(id: string, orderItem: UpdateOrderItemDto) {

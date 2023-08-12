@@ -12,9 +12,10 @@ import { OrderService } from './order.service';
 
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { CreateOrderItemDto } from './dto/create-order-item.dto';
+import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
 import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
-import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
 @Controller()
 export class OrderController {
@@ -41,6 +42,14 @@ export class OrderController {
     @Body() updateOrderDto: UpdateOrderDto,
   ) {
     return this.orderService.update(id, updateOrderDto);
+  }
+
+  @Patch('order/:id/item')
+  updateOrderWithItem(
+    @Param() { id }: UuidParamDto,
+    @Body() createOrderItemDto: CreateOrderItemDto,
+  ) {
+    return this.orderService.updateOrderWithItem(id, createOrderItemDto);
   }
 
   @Patch('order/item/:id')

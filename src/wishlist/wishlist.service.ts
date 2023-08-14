@@ -14,7 +14,7 @@ export class WishlistService {
       },
     });
 
-    return result?.productIds ?? null;
+    return result?.productIds ?? [];
   }
 
   async update(id: string, updateWishlistDto: UpdateWishlistDto) {

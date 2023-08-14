@@ -15,7 +15,7 @@ export class CartService {
       },
     });
 
-    return result?.productIds ?? null;
+    return result?.productIds ?? [];
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {

@@ -43,7 +43,13 @@ const seedCategories = async (prisma: PrismaClient) => {
     prisma.categories.create({
       data: {
         id: 'f1344737-532d-44da-840c-1254d1fd99ca',
-        name: 'SSDs',
+        name: 'SSDs NVMe',
+      },
+    }),
+    prisma.categories.create({
+      data: {
+        id: '6f07e1d3-2b64-4590-8fed-621f943d9e93',
+        name: 'SSDs SATA',
       },
     }),
     prisma.categories.create({

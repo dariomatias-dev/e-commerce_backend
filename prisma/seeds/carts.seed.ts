@@ -13,7 +13,10 @@ const seedCarts = async (prisma: PrismaClient) => {
     prisma.carts.create({
       data: {
         userId: 'f8a5ded4-9247-44c2-a794-15aa5ff6fda1',
-        productIds: [],
+        productIds: [
+          'd0fb1d0d-60d9-41b8-8613-c24eea6abba9',
+          '38329235-492e-462a-b3cd-02d4cb0622d7',
+        ],
       },
     }),
   ]);

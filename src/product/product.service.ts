@@ -4,7 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
-import { productSelectionUtil } from 'src/common/utils/productDataSelection.util';
+import { productSelection } from 'src/product/selections/product.selection';
 
 @Injectable()
 export class ProductService {
@@ -21,6 +21,14 @@ export class ProductService {
   async findOne(id: string) {
     const product = await this.prisma.products.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        description: true,
+        amountOfImages: true,
+        categoryIds: true,
+      },
     });
 
     return product;
@@ -34,7 +42,7 @@ export class ProductService {
     const products = await this.prisma.products.findMany({
       skip,
       take,
-      select: productSelectionUtil,
+      select: productSelection,
       where: {
         id: {
           in: productIds,
@@ -54,7 +62,7 @@ export class ProductService {
     const products = await this.prisma.products.findMany({
       take,
       skip,
-      select: productSelectionUtil,
+      select: productSelection,
       where: {
         categoryIds: {
           hasSome: [id],
@@ -107,7 +115,7 @@ export class ProductService {
     const products = await this.prisma.products.findMany({
       take,
       skip,
-      select: productSelectionUtil,
+      select: productSelection,
       where: {
         AND: [
           {
@@ -137,7 +145,7 @@ export class ProductService {
     const products = await this.prisma.products.findMany({
       skip,
       take,
-      select: productSelectionUtil,
+      select: productSelection,
     });
 
     return { products, skip: skip + take };

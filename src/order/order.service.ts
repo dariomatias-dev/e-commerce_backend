@@ -6,6 +6,7 @@ import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
+import { orderSelection } from './selections/order.selection';
 
 @Injectable()
 export class OrderService {
@@ -13,6 +14,7 @@ export class OrderService {
 
   async create({ userId, orderItems, totalAmount }: CreateOrderDto) {
     const orders = await this.prisma.orders.create({
+      select: orderSelection,
       data: {
         userId,
         orderItems: {
@@ -29,11 +31,9 @@ export class OrderService {
 
   async findOne(id: string) {
     const order = await this.prisma.orders.findUnique({
+      select: orderSelection,
       where: {
         id,
-      },
-      include: {
-        orderItems: true,
       },
     });
 
@@ -42,9 +42,7 @@ export class OrderService {
 
   async findAll() {
     const orders = await this.prisma.orders.findMany({
-      include: {
-        orderItems: true,
-      },
+      select: orderSelection,
     });
 
     return orders;
@@ -55,6 +53,7 @@ export class OrderService {
       where: {
         id,
       },
+      select: orderSelection,
       data: {
         userId,
         totalAmount,
@@ -69,6 +68,7 @@ export class OrderService {
       where: {
         id,
       },
+      select: orderSelection,
       data: {
         orderItems: {
           create: createOrderItem,
@@ -84,6 +84,7 @@ export class OrderService {
       where: {
         id,
       },
+      select: orderSelection,
       data: orderItem,
     });
 
@@ -95,6 +96,7 @@ export class OrderService {
       where: {
         id,
       },
+      select: orderSelection,
     });
 
     return order;
@@ -103,6 +105,7 @@ export class OrderService {
   async removeOrderItem(id: string) {
     const result = await this.prisma.orderItems.delete({
       where: { id },
+      select: orderSelection,
     });
 
     return result;

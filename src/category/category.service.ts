@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -13,8 +13,8 @@ export class CategoryService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     const category = await this.prisma.categories.create({
-      data: createCategoryDto,
       select: categorySelection,
+      data: createCategoryDto,
     });
 
     return category;
@@ -25,6 +25,10 @@ export class CategoryService {
       where: { id },
       select: categorySelection,
     });
+
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
 
     return category;
   }

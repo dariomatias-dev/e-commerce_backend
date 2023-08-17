@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { CategoryService } from './category.service';
@@ -74,6 +75,20 @@ describe('CategoryService', () => {
         select: categorySelection,
       });
       expect(prismaMock.categories.findUnique).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an error for not having found the category', async () => {
+      const categoryId = 'e167d636-eecc-4ca9-9cde-9676b8c6b4d4';
+      prismaMock.categories.findUnique.mockResolvedValue(null);
+
+      await expect(service.findOne(categoryId)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(prismaMock.categories.findUnique).toHaveBeenCalledWith({
+        where: { id: categoryId },
+        select: categorySelection,
+      });
+      expect(prismaMock.categories.findUnique).toHaveBeenCalledTimes(2);
     });
   });
 

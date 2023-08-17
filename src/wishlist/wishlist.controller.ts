@@ -4,7 +4,7 @@ import { WishlistService } from './wishlist.service';
 
 import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 
-import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
+import { UuidParamDto } from '../common/dto/uuid-param.dto';
 
 @Controller('wishlist')
 export class WishlistController {

@@ -15,7 +15,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
-import { UuidParamDto } from 'src/common/dto/uuid-param.dto';
+import { UuidParamDto } from '../common/dto/uuid-param.dto';
 
 @Controller()
 export class OrderController {

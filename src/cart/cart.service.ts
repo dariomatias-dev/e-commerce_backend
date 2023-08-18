@@ -30,12 +30,12 @@ export class CartService {
   }
 
   async remove(id: string) {
-    const result = await this.prisma.carts.delete({
+    const cart = await this.prisma.carts.delete({
       where: {
         userId: id,
       },
     });
 
-    return result?.productIds;
+    return cart;
   }
 }

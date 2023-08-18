@@ -54,4 +54,37 @@ describe('CartService', () => {
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('update', () => {
+    it('should return the ids of the products from the record that was updated based on the ID', async () => {
+      const updatedField = { productIds: [cart.productIds[0]] };
+      const updatedCart = { ...cart, ...updatedField };
+      prismaMock.carts.update.mockResolvedValue(updatedCart);
+
+      const result = await service.update(cart.userId, updatedField);
+
+      expect(result).toEqual(updatedCart.productIds);
+      expect(prismaMock.carts.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedCart.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.carts.update).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('remove', () => {
+    it('should return deleted cart data', async () => {
+      prismaMock.carts.delete.mockResolvedValue(cart);
+
+      const result = await service.remove(cart.userId);
+
+      expect(result).toEqual(cart);
+      expect(prismaMock.carts.delete).toHaveBeenCalledWith({
+        where: { userId: cart.userId },
+      });
+      expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
+    });
+  });
 });

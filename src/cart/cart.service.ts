@@ -15,27 +15,27 @@ export class CartService {
       },
     });
 
-    return result?.productIds ?? [];
+    return result?.productIds;
   }
 
   async update(id: string, updateCartDto: UpdateCartDto) {
-    const cart = await this.prisma.carts.update({
+    const result = await this.prisma.carts.update({
       where: {
         userId: id,
       },
       data: updateCartDto,
     });
 
-    return cart;
+    return result?.productIds;
   }
 
   async remove(id: string) {
-    const cart = await this.prisma.carts.delete({
+    const result = await this.prisma.carts.delete({
       where: {
         userId: id,
       },
     });
 
-    return cart;
+    return result?.productIds;
   }
 }

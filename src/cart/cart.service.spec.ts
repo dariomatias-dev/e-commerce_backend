@@ -35,6 +35,7 @@ describe('CartService', () => {
     }).compile();
 
     service = module.get<CartService>(CartService);
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -50,6 +51,19 @@ describe('CartService', () => {
       expect(result).toEqual(cart.productIds);
       expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
         where: { userId: cart.userId },
+      });
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array', async () => {
+      const emptyCart = { ...cart, productIds: [] };
+      prismaMock.carts.findUnique.mockResolvedValue(emptyCart);
+
+      const result = await service.findOne(emptyCart.userId);
+
+      expect(result).toEqual([]);
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
+        where: { userId: emptyCart.userId },
       });
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
     });

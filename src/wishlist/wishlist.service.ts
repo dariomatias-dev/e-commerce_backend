@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class WishlistService {
   constructor(private readonly prisma: PrismaService) {}
+
   async findOne(id: string) {
     const result = await this.prisma.wishlists.findUnique({
       where: {
@@ -14,7 +15,7 @@ export class WishlistService {
       },
     });
 
-    return result?.productIds ?? [];
+    return result?.productIds;
   }
 
   async update(id: string, updateWishlistDto: UpdateWishlistDto) {
@@ -25,7 +26,7 @@ export class WishlistService {
       data: updateWishlistDto,
     });
 
-    return wishlist;
+    return wishlist?.productIds;
   }
 
   async remove(id: string) {
@@ -35,6 +36,6 @@ export class WishlistService {
       },
     });
 
-    return wishlist;
+    return wishlist?.productIds;
   }
 }

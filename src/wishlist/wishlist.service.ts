@@ -19,14 +19,14 @@ export class WishlistService {
   }
 
   async update(id: string, updateWishlistDto: UpdateWishlistDto) {
-    const wishlist = await this.prisma.wishlists.update({
+    const result = await this.prisma.wishlists.update({
       where: {
         userId: id,
       },
       data: updateWishlistDto,
     });
 
-    return wishlist?.productIds;
+    return result?.productIds;
   }
 
   async remove(id: string) {
@@ -36,6 +36,6 @@ export class WishlistService {
       },
     });
 
-    return wishlist?.productIds;
+    return wishlist;
   }
 }

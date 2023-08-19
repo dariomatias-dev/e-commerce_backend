@@ -58,7 +58,10 @@ describe('WishlistService', () => {
     });
 
     it('should return an empty array', async () => {
-      const emptyWishlist = { ...wishlist, productIds: [] };
+      const emptyWishlist = {
+        ...wishlist,
+        productIds: [],
+      };
       prismaMock.wishlists.findUnique.mockResolvedValue(emptyWishlist);
 
       const result = await service.findOne(emptyWishlist.userId);
@@ -98,7 +101,7 @@ describe('WishlistService', () => {
 
       const result = await service.remove(wishlist.userId);
 
-      expect(result).toEqual(wishlist.productIds);
+      expect(result).toEqual(wishlist);
       expect(prismaMock.wishlists.delete).toHaveBeenCalledWith({
         where: {
           userId: wishlist.userId,

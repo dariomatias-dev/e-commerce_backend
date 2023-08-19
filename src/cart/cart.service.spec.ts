@@ -50,20 +50,27 @@ describe('CartService', () => {
 
       expect(result).toEqual(cart.productIds);
       expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
-        where: { userId: cart.userId },
+        where: {
+          userId: cart.userId,
+        },
       });
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
     });
 
     it('should return an empty array', async () => {
-      const emptyCart = { ...cart, productIds: [] };
+      const emptyCart = {
+        ...cart,
+        productIds: [],
+      };
       prismaMock.carts.findUnique.mockResolvedValue(emptyCart);
 
       const result = await service.findOne(emptyCart.userId);
 
       expect(result).toEqual([]);
       expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
-        where: { userId: emptyCart.userId },
+        where: {
+          userId: cart.userId,
+        },
       });
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
     });
@@ -96,7 +103,9 @@ describe('CartService', () => {
 
       expect(result).toEqual(cart);
       expect(prismaMock.carts.delete).toHaveBeenCalledWith({
-        where: { userId: cart.userId },
+        where: {
+          userId: cart.userId,
+        },
       });
       expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
     });

@@ -56,4 +56,62 @@ describe('CategoryController', () => {
       expect(serviceMock.create).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('findOne', () => {
+    it('should return a user based on ID', async () => {
+      serviceMock.findOne.mockResolvedValue(categoryOne);
+      const params = { id: categoryOne.id };
+
+      const result = await controller.findOne(params);
+
+      expect(result).toEqual(categoryOne);
+      expect(serviceMock.findOne).toHaveBeenCalledWith(categoryOne.id);
+      expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return all categories', async () => {
+      serviceMock.findAll.mockResolvedValue([categoryOne, categoryTwo]);
+
+      const result = await controller.findAll();
+
+      expect(result).toEqual([categoryOne, categoryTwo]);
+      expect(serviceMock.findAll).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('update', () => {
+    it('should return the category ID updated with the data passed', async () => {
+      const updatedField = { name: 'Processador' };
+      const updatedCategory = {
+        ...categoryOne,
+        ...updatedField,
+      };
+      serviceMock.update.mockResolvedValue(updatedCategory);
+      const params = { id: categoryOne.id };
+
+      const result = await controller.update(params, updatedField);
+
+      expect(result).toEqual(updatedCategory);
+      expect(serviceMock.update).toHaveBeenCalledWith(
+        updatedCategory.id,
+        updatedField,
+      );
+      expect(serviceMock.update).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('remove', () => {
+    it('should return the category which was deleted based on ID', async () => {
+      serviceMock.remove.mockResolvedValue(categoryOne);
+      const params = { id: categoryOne.id };
+
+      const result = await controller.remove(params);
+
+      expect(result).toEqual(categoryOne);
+      expect(serviceMock.remove).toHaveBeenCalledWith(categoryOne.id);
+      expect(serviceMock.remove).toHaveBeenCalledTimes(1);
+    });
+  });
 });

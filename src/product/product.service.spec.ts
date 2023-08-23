@@ -19,6 +19,7 @@ describe('ProductService', () => {
   };
 
   const productOne = {
+    id: '0888b281-35b0-4c73-8a33-b8db1d8966c1',
     name: 'ASUS ROG Swift PG279Q',
     price: 4495.49,
     description:
@@ -28,6 +29,7 @@ describe('ProductService', () => {
   };
 
   const productTwo = {
+    id: '0cb5c0e5-d95e-410f-a10b-b89a75aacdb3',
     name: 'Placa-Mãe Gigabyte Z590 AORUS PRO',
     price: 3380.59,
     description:
@@ -66,6 +68,30 @@ describe('ProductService', () => {
         data: productOne,
       });
       expect(prismaMock.products.create).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return the user that corresponds to the given ID', async () => {
+      prismaMock.products.findUnique.mockResolvedValue(productOne);
+
+      const result = await service.findOne(productOne.id);
+
+      expect(result).toEqual(productOne);
+      expect(prismaMock.products.findUnique).toHaveBeenCalledWith({
+        where: {
+          id: productOne.id,
+        },
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          description: true,
+          amountOfImages: true,
+          categoryIds: true,
+        },
+      });
+      expect(prismaMock.products.findUnique).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -95,6 +95,25 @@ describe('ProductService', () => {
     });
   });
 
+  describe('update', () => {
+    it('should return the user that was updated based on the sent data', async () => {
+      const updatedField = { price: 5000 };
+      const updatedProduct = { ...productOne, updatedField };
+      prismaMock.products.update.mockResolvedValue(updatedProduct);
+
+      const result = await service.update(updatedProduct.id, updatedProduct);
+
+      expect(result).toEqual(updatedProduct);
+      expect(prismaMock.products.update).toHaveBeenCalledWith({
+        where: {
+          id: updatedProduct.id,
+        },
+        data: updatedProduct,
+      });
+      expect(prismaMock.products.update).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('remove', () => {
     it('should return the user that was deleted based on the sent id', async () => {
       prismaMock.products.delete.mockResolvedValue(productOne);

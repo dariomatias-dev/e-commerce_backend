@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductService } from './product.service';
 
 import { PrismaService } from '../prisma/prisma.service';
+import { productSelection } from './selections/product.selection';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -92,6 +93,38 @@ describe('ProductService', () => {
         },
       });
       expect(prismaMock.products.findUnique).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return 10 users', async () => {
+      const products = [];
+      const { id, name, price } = productOne;
+      const product = {
+        id,
+        name,
+        price,
+      };
+      const skip = 0;
+      const take = 10;
+      for (let i = 0; i < take; i++) {
+        products.push(product);
+      }
+      const productsRequest = {
+        products: products,
+        skip: skip + take,
+      };
+      prismaMock.products.findMany.mockResolvedValue(products);
+
+      const result = await service.findAll(skip, take);
+
+      expect(result).toEqual(productsRequest);
+      expect(prismaMock.products.findMany).toHaveBeenCalledWith({
+        skip,
+        take,
+        select: productSelection,
+      });
+      expect(prismaMock.products.findMany).toHaveBeenCalledTimes(1);
     });
   });
 

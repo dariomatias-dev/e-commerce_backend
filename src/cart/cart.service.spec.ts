@@ -119,7 +119,10 @@ describe('CartService', () => {
   describe('update', () => {
     it('should return the ids of the products from the record that was updated based on the ID', async () => {
       const updatedField = { productIds: [cartOne.productIds[0]] };
-      const updatedCart = { ...cartOne, updatedField };
+      const updatedCart = {
+        ...cartOne,
+        updatedField,
+      };
       prismaMock.carts.update.mockResolvedValue(updatedCart);
 
       const result = await service.update(cartOne.userId, updatedField);
@@ -128,6 +131,26 @@ describe('CartService', () => {
       expect(prismaMock.carts.update).toHaveBeenCalledWith({
         where: {
           userId: updatedCart.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.carts.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array corresponding to the ids of the products in the record that was updated based on the ID', async () => {
+      const updatedField = { productIds: [] };
+      const emptyCartOne = {
+        ...cartOne,
+        updatedField,
+      };
+      prismaMock.carts.update.mockResolvedValue(emptyCartOne);
+
+      const result = await service.update(emptyCartOne.userId, updatedField);
+
+      expect(result).toEqual(emptyCartOne.productIds);
+      expect(prismaMock.carts.update).toHaveBeenCalledWith({
+        where: {
+          userId: emptyCartOne.userId,
         },
         data: updatedField,
       });

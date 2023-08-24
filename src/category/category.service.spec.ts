@@ -40,6 +40,7 @@ describe('CategoryService', () => {
     }).compile();
 
     service = module.get<CategoryService>(CategoryService);
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -47,7 +48,7 @@ describe('CategoryService', () => {
   });
 
   describe('create', () => {
-    it('should return the created user', async () => {
+    it('should return user number one created', async () => {
       prismaMock.categories.create.mockResolvedValue(categoryOne);
 
       const result = await service.create(categoryOne);
@@ -56,6 +57,19 @@ describe('CategoryService', () => {
       expect(prismaMock.categories.create).toHaveBeenCalledWith({
         select: categorySelection,
         data: categoryOne,
+      });
+      expect(prismaMock.categories.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return user number two created', async () => {
+      prismaMock.categories.create.mockResolvedValue(categoryTwo);
+
+      const result = await service.create(categoryTwo);
+
+      expect(result).toEqual(categoryTwo);
+      expect(prismaMock.categories.create).toHaveBeenCalledWith({
+        select: categorySelection,
+        data: categoryTwo,
       });
       expect(prismaMock.categories.create).toHaveBeenCalledTimes(1);
     });
@@ -88,7 +102,7 @@ describe('CategoryService', () => {
         where: { id: categoryId },
         select: categorySelection,
       });
-      expect(prismaMock.categories.findUnique).toHaveBeenCalledTimes(2);
+      expect(prismaMock.categories.findUnique).toHaveBeenCalledTimes(1);
     });
   });
 

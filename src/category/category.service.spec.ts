@@ -122,12 +122,12 @@ describe('CategoryService', () => {
 
   describe('update', () => {
     it('should return the category ID updated with the data passed', async () => {
-      const updatedCategory = {
-        id: 'bf565cbb-1f85-49c4-9292-ccff1d2bbe3e',
-        name: 'Processadores',
-      };
       const updatedField = {
         name: 'Processadores',
+      };
+      const updatedCategory = {
+        ...categoryOne,
+        updatedField,
       };
       prismaMock.categories.update.mockResolvedValue(updatedCategory);
 

@@ -23,7 +23,7 @@ describe('CartService', () => {
     ],
   };
 
-  const carrtTwo = {
+  const cartTwo = {
     userId: '57e99e52-753e-4da7-8a67-a6286edd2ee4',
     productIds: [
       '0c03de01-7719-4403-9021-a330da5934f5',
@@ -51,7 +51,7 @@ describe('CartService', () => {
   });
 
   describe('findOne', () => {
-    it("should return the products from the user's cart ID", async () => {
+    it('should return the products from the cart ID of the first user', async () => {
       prismaMock.carts.findUnique.mockResolvedValue(cartOne);
 
       const result = await service.findOne(cartOne.userId);
@@ -65,7 +65,7 @@ describe('CartService', () => {
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
     });
 
-    it('should return an empty array', async () => {
+    it("should return an empty array from the first user's cart", async () => {
       const emptyCart = {
         ...cartOne,
         productIds: [],
@@ -78,6 +78,38 @@ describe('CartService', () => {
       expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
         where: {
           userId: cartOne.userId,
+        },
+      });
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return the products from the cart ID of the second user', async () => {
+      prismaMock.carts.findUnique.mockResolvedValue(cartTwo);
+
+      const result = await service.findOne(cartTwo.userId);
+
+      expect(result).toEqual(cartTwo.productIds);
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
+        where: {
+          userId: cartTwo.userId,
+        },
+      });
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);
+    });
+
+    it("should return an empty array from the first user's cart", async () => {
+      const emptyCart = {
+        ...cartTwo,
+        productIds: [],
+      };
+      prismaMock.carts.findUnique.mockResolvedValue(emptyCart);
+
+      const result = await service.findOne(emptyCart.userId);
+
+      expect(result).toEqual(emptyCart.productIds);
+      expect(prismaMock.carts.findUnique).toHaveBeenCalledWith({
+        where: {
+          userId: emptyCart.userId,
         },
       });
       expect(prismaMock.carts.findUnique).toHaveBeenCalledTimes(1);

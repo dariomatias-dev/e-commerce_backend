@@ -94,4 +94,20 @@ describe('ProductService', () => {
       expect(prismaMock.products.findUnique).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('remove', () => {
+    it('should return the user that was deleted based on the sent id', async () => {
+      prismaMock.products.delete.mockResolvedValue(productOne);
+
+      const result = await service.remove(productOne.id);
+
+      expect(result).toEqual(productOne);
+      expect(prismaMock.products.delete).toHaveBeenCalledWith({
+        where: {
+          id: productOne.id,
+        },
+      });
+      expect(prismaMock.products.delete).toHaveBeenCalledTimes(1);
+    });
+  });
 });

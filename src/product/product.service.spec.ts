@@ -96,6 +96,19 @@ describe('ProductService', () => {
     });
   });
 
+  describe('count', () => {
+    it('return the total quantity of products.', async () => {
+      const products = [productOne, productTwo];
+      const count = products.length;
+      prismaMock.products.count.mockResolvedValue(count);
+
+      const result = await service.findCount();
+
+      expect(result).toEqual(count);
+      expect(prismaMock.products.count).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('findAll', () => {
     it('should return 10 users', async () => {
       const products = [];

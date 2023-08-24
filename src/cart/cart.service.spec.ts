@@ -117,27 +117,27 @@ describe('CartService', () => {
   });
 
   describe('update', () => {
-    it('should return the ids of the products from the record that was updated based on the ID', async () => {
+    it('should return the ids of the products in the record that was updated based on the ID of the first cart', async () => {
       const updatedField = { productIds: [cartOne.productIds[0]] };
-      const updatedCart = {
+      const updatedCartOne = {
         ...cartOne,
         updatedField,
       };
-      prismaMock.carts.update.mockResolvedValue(updatedCart);
+      prismaMock.carts.update.mockResolvedValue(updatedCartOne);
 
       const result = await service.update(cartOne.userId, updatedField);
 
-      expect(result).toEqual(updatedCart.productIds);
+      expect(result).toEqual(updatedCartOne.productIds);
       expect(prismaMock.carts.update).toHaveBeenCalledWith({
         where: {
-          userId: updatedCart.userId,
+          userId: updatedCartOne.userId,
         },
         data: updatedField,
       });
       expect(prismaMock.carts.update).toHaveBeenCalledTimes(1);
     });
 
-    it('should return an empty array corresponding to the ids of the products in the record that was updated based on the ID', async () => {
+    it('should return an empty array corresponding to the ids of the products in the record that were updated based on the first cart ID', async () => {
       const updatedField = { productIds: [] };
       const emptyCartOne = {
         ...cartOne,
@@ -151,6 +151,46 @@ describe('CartService', () => {
       expect(prismaMock.carts.update).toHaveBeenCalledWith({
         where: {
           userId: emptyCartOne.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.carts.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return the ids of the products in the record that was updated based on the ID of the second cart', async () => {
+      const updatedField = { productIds: [cartTwo.productIds[0]] };
+      const updatedCartTwo = {
+        ...cartTwo,
+        ...updatedField,
+      };
+      prismaMock.carts.update.mockResolvedValue(updatedCartTwo);
+
+      const result = await service.update(updatedCartTwo.userId, updatedField);
+
+      expect(result).toEqual(updatedCartTwo.productIds);
+      expect(prismaMock.carts.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedCartTwo.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.carts.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array corresponding to the ids of the products in the record that were updated based on the second cart id', async () => {
+      const updatedField = { productIds: [] };
+      const updatedCartTwo = {
+        ...cartTwo,
+        ...updatedField,
+      };
+      prismaMock.carts.update.mockResolvedValue(updatedCartTwo);
+
+      const result = await service.update(updatedCartTwo.userId, updatedField);
+
+      expect(result).toEqual(updatedCartTwo.productIds);
+      expect(prismaMock.carts.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedCartTwo.userId,
         },
         data: updatedField,
       });

@@ -129,8 +129,8 @@ describe('WishlistService', () => {
     });
   });
 
-  describe('delete', () => {
-    it('should return deleted cart data', async () => {
+  describe('remove', () => {
+    it('should return the wishlist from the first wishlist', async () => {
       prismaMock.wishlists.delete.mockResolvedValue(wishlistOne);
 
       const result = await service.remove(wishlistOne.userId);
@@ -139,6 +139,24 @@ describe('WishlistService', () => {
       expect(prismaMock.wishlists.delete).toHaveBeenCalledWith({
         where: {
           userId: wishlistOne.userId,
+        },
+      });
+      expect(prismaMock.wishlists.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return a wishlist with an empty array in the productIds field for the first user', async () => {
+      const emptyWishlistOne = {
+        ...wishlistOne,
+        productIds: [],
+      };
+      prismaMock.wishlists.delete.mockResolvedValue(emptyWishlistOne);
+
+      const result = await service.remove(emptyWishlistOne.userId);
+
+      expect(result).toEqual(emptyWishlistOne);
+      expect(prismaMock.wishlists.delete).toHaveBeenCalledWith({
+        where: {
+          userId: emptyWishlistOne.userId,
         },
       });
       expect(prismaMock.wishlists.delete).toHaveBeenCalledTimes(1);

@@ -159,6 +159,52 @@ describe('WishlistService', () => {
       });
       expect(prismaMock.wishlists.update).toHaveBeenCalledTimes(1);
     });
+
+    it('should return the ids of the products in the record that was updated based on the ID of the second wishlist', async () => {
+      const updatedField = { productIds: [wishlistTwo.productIds[0]] };
+      const updatedWishlistTwo = {
+        ...wishlistTwo,
+        ...updatedField,
+      };
+      prismaMock.wishlists.update.mockResolvedValue(updatedWishlistTwo);
+
+      const result = await service.update(
+        updatedWishlistTwo.userId,
+        updatedField,
+      );
+
+      expect(result).toEqual(updatedWishlistTwo.productIds);
+      expect(prismaMock.wishlists.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedWishlistTwo.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.wishlists.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array corresponding to the ids of the products in the record that were updated based on the second wishlist id', async () => {
+      const updatedField = { productIds: [] };
+      const updatedWishlistTwo = {
+        ...wishlistTwo,
+        ...updatedField,
+      };
+      prismaMock.wishlists.update.mockResolvedValue(updatedWishlistTwo);
+
+      const result = await service.update(
+        updatedWishlistTwo.userId,
+        updatedField,
+      );
+
+      expect(result).toEqual(updatedWishlistTwo.productIds);
+      expect(prismaMock.wishlists.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedWishlistTwo.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.wishlists.update).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('remove', () => {

@@ -127,7 +127,7 @@ describe('CategoryService', () => {
       };
       const updatedCategory = {
         ...categoryOne,
-        updatedField,
+        ...updatedField,
       };
       prismaMock.categories.update.mockResolvedValue(updatedCategory);
 

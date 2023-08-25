@@ -144,7 +144,10 @@ describe('ProductService', () => {
   describe('update', () => {
     it('should return the user that was updated based on the sent data', async () => {
       const updatedField = { price: 5000 };
-      const updatedProduct = { ...productOne, updatedField };
+      const updatedProduct = {
+        ...productOne,
+        ...updatedField,
+      };
       prismaMock.products.update.mockResolvedValue(updatedProduct);
 
       const result = await service.update(updatedProduct.id, updatedProduct);

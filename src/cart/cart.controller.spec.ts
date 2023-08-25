@@ -13,11 +13,19 @@ describe('CartController', () => {
     remove: jest.fn(),
   };
 
-  const cart = {
+  const cartOne = {
     userId: 'f8a5ded4-9247-44c2-a794-15aa5ff6fda1',
     productIds: [
       'd0fb1d0d-60d9-41b8-8613-c24eea6abba9',
       '38329235-492e-462a-b3cd-02d4cb0622d7',
+    ],
+  };
+
+  const cartTwo = {
+    userId: '57e99e52-753e-4da7-8a67-a6286edd2ee4',
+    productIds: [
+      '0c03de01-7719-4403-9021-a330da5934f5',
+      '7dde05da-62b3-4254-ab72-1b78863a06e1',
     ],
   };
 
@@ -43,54 +51,51 @@ describe('CartController', () => {
 
   describe('findOne', () => {
     it("should return the products from the user's cart ID", async () => {
-      serviceMock.findOne.mockResolvedValue(cart.productIds);
-      const params = { id: cart.userId };
+      serviceMock.findOne.mockResolvedValue(cartOne.productIds);
+      const params = { id: cartOne.userId };
 
       const result = await controller.findOne(params);
 
-      expect(result).toEqual(cart.productIds);
-      expect(serviceMock.findOne).toHaveBeenCalledWith(cart.userId);
+      expect(result).toEqual(cartOne.productIds);
+      expect(serviceMock.findOne).toHaveBeenCalledWith(params.id);
       expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
     });
 
     it('should return an empty array', async () => {
       serviceMock.findOne.mockResolvedValue([]);
-      const params = { id: cart.userId };
+      const params = { id: cartOne.userId };
 
       const result = await controller.findOne(params);
 
       expect(result).toEqual([]);
-      expect(serviceMock.findOne).toHaveBeenCalledWith(cart.userId);
+      expect(serviceMock.findOne).toHaveBeenCalledWith(params.id);
       expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('update', () => {
     it('should return the ids of the products from the record that was updated based on the ID', async () => {
-      const updatedField = { productIds: [cart.productIds[0]] };
+      const updatedField = { productIds: [cartOne.productIds[0]] };
       serviceMock.update.mockResolvedValue(updatedField);
-      const params = { id: cart.userId };
+      const params = { id: cartOne.userId };
 
       const result = await controller.update(params, updatedField);
 
       expect(result).toEqual(updatedField);
-      expect(serviceMock.update).toHaveBeenCalledWith(
-        cart.userId,
-        updatedField,
-      );
+      expect(serviceMock.update).toHaveBeenCalledWith(params.id, updatedField);
       expect(serviceMock.update).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('remove', () => {
     it('should return deleted cart data', async () => {
-      serviceMock.remove.mockResolvedValue(cart);
-      const params = { id: cart.userId };
+      serviceMock.remove.mockResolvedValue(cartOne);
+      const params = { id: cartOne.userId };
 
       const result = await controller.remove(params);
 
-      expect(result).toEqual(cart);
-      expect(serviceMock.remove).toHaveBeenCalledWith(cart.userId);
+      expect(result).toEqual(cartOne);
+      expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
       expect(serviceMock.remove).toHaveBeenCalledTimes(1);
     });
   });

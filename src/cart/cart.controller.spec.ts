@@ -119,6 +119,30 @@ describe('CartController', () => {
       expect(serviceMock.update).toHaveBeenCalledWith(params.id, updatedField);
       expect(serviceMock.update).toHaveBeenCalledTimes(1);
     });
+
+    it('should return the ids of the products in the record that was updated based on the ID of the second cart', async () => {
+      const updatedField = { productIds: [cartTwo.productIds[0]] };
+      serviceMock.update.mockResolvedValue(updatedField);
+      const params = { id: cartTwo.userId };
+
+      const result = await controller.update(params, updatedField);
+
+      expect(result).toEqual(updatedField);
+      expect(serviceMock.update).toHaveBeenCalledWith(params.id, updatedField);
+      expect(serviceMock.update).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array corresponding to the ids of the products in the record that were updated based on the second cart id', async () => {
+      const updatedField = { productIds: [] };
+      serviceMock.update.mockResolvedValue(updatedField);
+      const params = { id: cartTwo.userId };
+
+      const result = await controller.update(params, updatedField);
+
+      expect(result).toEqual(updatedField);
+      expect(serviceMock.update).toHaveBeenCalledWith(params.id, updatedField);
+      expect(serviceMock.update).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('remove', () => {

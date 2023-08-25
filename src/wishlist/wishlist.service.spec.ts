@@ -82,6 +82,38 @@ describe('WishlistService', () => {
       });
       expect(prismaMock.wishlists.findUnique).toHaveBeenCalledTimes(1);
     });
+
+    it('should return the products from the cart ID of the second wishlist', async () => {
+      prismaMock.wishlists.findUnique.mockResolvedValue(wishlistTwo);
+
+      const result = await service.findOne(wishlistTwo.userId);
+
+      expect(result).toEqual(wishlistTwo.productIds);
+      expect(prismaMock.wishlists.findUnique).toHaveBeenCalledWith({
+        where: {
+          userId: wishlistTwo.userId,
+        },
+      });
+      expect(prismaMock.wishlists.findUnique).toHaveBeenCalledTimes(1);
+    });
+
+    it("should return an empty array from the first user's wishlist", async () => {
+      const emptyWishlistTwo = {
+        ...wishlistTwo,
+        productIds: [],
+      };
+      prismaMock.wishlists.findUnique.mockResolvedValue(emptyWishlistTwo);
+
+      const result = await service.findOne(emptyWishlistTwo.userId);
+
+      expect(result).toEqual(emptyWishlistTwo.productIds);
+      expect(prismaMock.wishlists.findUnique).toHaveBeenCalledWith({
+        where: {
+          userId: emptyWishlistTwo.userId,
+        },
+      });
+      expect(prismaMock.wishlists.findUnique).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('update', () => {

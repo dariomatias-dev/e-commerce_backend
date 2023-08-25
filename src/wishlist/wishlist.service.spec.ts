@@ -15,11 +15,19 @@ describe('WishlistService', () => {
     },
   };
 
-  const wishlist = {
+  const wishlistOne = {
     userId: 'f8a5ded4-9247-44c2-a794-15aa5ff6fda1',
     productIds: [
       'd0fb1d0d-60d9-41b8-8613-c24eea6abba9',
       '38329235-492e-462a-b3cd-02d4cb0622d7',
+    ],
+  };
+
+  const wishlistTwo = {
+    userId: '57e99e52-753e-4da7-8a67-a6286edd2ee4',
+    productIds: [
+      '0c03de01-7719-4403-9021-a330da5934f5',
+      '7dde05da-62b3-4254-ab72-1b78863a06e1',
     ],
   };
 
@@ -43,23 +51,23 @@ describe('WishlistService', () => {
   });
 
   describe('findOne', () => {
-    it("should return the products from the user's wishlist ID", async () => {
-      prismaMock.wishlists.findUnique.mockResolvedValue(wishlist);
+    it('should return the products from the cart ID of the first wishlist', async () => {
+      prismaMock.wishlists.findUnique.mockResolvedValue(wishlistOne);
 
-      const result = await service.findOne(wishlist.userId);
+      const result = await service.findOne(wishlistOne.userId);
 
-      expect(result).toEqual(wishlist.productIds);
+      expect(result).toEqual(wishlistOne.productIds);
       expect(prismaMock.wishlists.findUnique).toHaveBeenCalledWith({
         where: {
-          userId: wishlist.userId,
+          userId: wishlistOne.userId,
         },
       });
       expect(prismaMock.wishlists.findUnique).toHaveBeenCalledTimes(1);
     });
 
-    it('should return an empty array', async () => {
+    it("should return an empty array from the first user's wishlist", async () => {
       const emptyWishlist = {
-        ...wishlist,
+        ...wishlistOne,
         productIds: [],
       };
       prismaMock.wishlists.findUnique.mockResolvedValue(emptyWishlist);
@@ -77,9 +85,12 @@ describe('WishlistService', () => {
   });
 
   describe('update', () => {
-    it('should return the ids of the products from the record that was updated based on the ID', async () => {
-      const updatedField = { productIds: [wishlist.productIds[0]] };
-      const updatedWishlist = { ...wishlist, ...updatedField };
+    it('should return the ids of the products in the record that was updated based on the ID of the first wishlist', async () => {
+      const updatedField = { productIds: [wishlistOne.productIds[0]] };
+      const updatedWishlist = {
+        ...wishlistOne,
+        ...updatedField,
+      };
       prismaMock.wishlists.update.mockResolvedValue(updatedWishlist);
 
       const result = await service.update(updatedWishlist.userId, updatedField);
@@ -97,14 +108,14 @@ describe('WishlistService', () => {
 
   describe('delete', () => {
     it('should return deleted cart data', async () => {
-      prismaMock.wishlists.delete.mockResolvedValue(wishlist);
+      prismaMock.wishlists.delete.mockResolvedValue(wishlistOne);
 
-      const result = await service.remove(wishlist.userId);
+      const result = await service.remove(wishlistOne.userId);
 
-      expect(result).toEqual(wishlist);
+      expect(result).toEqual(wishlistOne);
       expect(prismaMock.wishlists.delete).toHaveBeenCalledWith({
         where: {
-          userId: wishlist.userId,
+          userId: wishlistOne.userId,
         },
       });
       expect(prismaMock.wishlists.delete).toHaveBeenCalledTimes(1);

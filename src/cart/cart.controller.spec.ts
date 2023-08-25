@@ -146,7 +146,7 @@ describe('CartController', () => {
   });
 
   describe('remove', () => {
-    it('should return deleted cart data', async () => {
+    it('should return the wishlist from the first cart', async () => {
       serviceMock.remove.mockResolvedValue(cartOne);
       const params = { id: cartOne.userId };
 
@@ -157,7 +157,7 @@ describe('CartController', () => {
       expect(serviceMock.remove).toHaveBeenCalledTimes(1);
     });
 
-    it('should return a wishlist with an empty array in the productIds field for the second user', async () => {
+    it('should return a wishlist with an empty array in the productIds field for the first cart', async () => {
       const emptyCartOne = {
         ...cartOne,
         productIds: [],
@@ -168,6 +168,32 @@ describe('CartController', () => {
       const result = await controller.remove(params);
 
       expect(result).toEqual(emptyCartOne);
+      expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
+      expect(serviceMock.remove).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return the wishlist from the second cart', async () => {
+      serviceMock.remove.mockResolvedValue(cartTwo);
+      const params = { id: cartTwo.userId };
+
+      const result = await controller.remove(params);
+
+      expect(result).toEqual(cartTwo);
+      expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
+      expect(serviceMock.remove).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return a wishlist with an empty array in the productIds field for the second cart', async () => {
+      const emptyCartTwo = {
+        ...cartTwo,
+        productIds: [],
+      };
+      serviceMock.remove.mockResolvedValue(emptyCartTwo);
+      const params = { id: emptyCartTwo.userId };
+
+      const result = await controller.remove(params);
+
+      expect(result).toEqual(emptyCartTwo);
       expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
       expect(serviceMock.remove).toHaveBeenCalledTimes(1);
     });

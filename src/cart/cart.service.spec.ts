@@ -199,7 +199,7 @@ describe('CartService', () => {
   });
 
   describe('remove', () => {
-    it('should return the wishlist from the second wishlist', async () => {
+    it('should return the wishlist from the first cart', async () => {
       prismaMock.carts.delete.mockResolvedValue(cartOne);
 
       const result = await service.remove(cartOne.userId);
@@ -213,7 +213,7 @@ describe('CartService', () => {
       expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
     });
 
-    it('should return a wishlist with an empty array in the productIds field for the second user', async () => {
+    it('should return a wishlist with an empty array in the productIds field for the first cart', async () => {
       const emptyCartOne = {
         ...cartOne,
         productIds: [],
@@ -231,7 +231,7 @@ describe('CartService', () => {
       expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
     });
 
-    it('', async () => {
+    it('should return the wishlist from the second cart', async () => {
       prismaMock.carts.delete.mockResolvedValue(cartTwo);
 
       const result = await service.remove(cartTwo.userId);
@@ -245,7 +245,7 @@ describe('CartService', () => {
       expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
     });
 
-    it('', async () => {
+    it('should return a wishlist with an empty array in the productIds field for the second cart', async () => {
       const emptyCartTwo = {
         ...cartTwo,
         productIds: [],

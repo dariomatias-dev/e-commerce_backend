@@ -71,6 +71,28 @@ describe('CartController', () => {
       expect(serviceMock.findOne).toHaveBeenCalledWith(params.id);
       expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
     });
+
+    it('', async () => {
+      serviceMock.findOne.mockResolvedValue(cartTwo.productIds);
+      const params = { id: cartTwo.userId };
+
+      const result = await controller.findOne(params);
+
+      expect(result).toEqual(cartTwo.productIds);
+      expect(serviceMock.findOne).toHaveBeenCalledWith(params.id);
+      expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    it('', async () => {
+      serviceMock.findOne.mockResolvedValue([]);
+      const params = { id: cartTwo.userId };
+
+      const result = await controller.findOne(params);
+
+      expect(result).toEqual([]);
+      expect(serviceMock.findOne).toHaveBeenCalledWith(params.id);
+      expect(serviceMock.findOne).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('update', () => {

@@ -121,7 +121,7 @@ describe('CartService', () => {
       const updatedField = { productIds: [cartOne.productIds[0]] };
       const updatedCartOne = {
         ...cartOne,
-        updatedField,
+        ...updatedField,
       };
       prismaMock.carts.update.mockResolvedValue(updatedCartOne);
 
@@ -141,7 +141,7 @@ describe('CartService', () => {
       const updatedField = { productIds: [] };
       const emptyCartOne = {
         ...cartOne,
-        updatedField,
+        ...updatedField,
       };
       prismaMock.carts.update.mockResolvedValue(emptyCartOne);
 
@@ -199,12 +199,30 @@ describe('CartService', () => {
   });
 
   describe('remove', () => {
-    it('should return deleted cart data', async () => {
+    it('should return the wishlist from the second wishlist', async () => {
       prismaMock.carts.delete.mockResolvedValue(cartOne);
 
       const result = await service.remove(cartOne.userId);
 
       expect(result).toEqual(cartOne);
+      expect(prismaMock.carts.delete).toHaveBeenCalledWith({
+        where: {
+          userId: cartOne.userId,
+        },
+      });
+      expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return a wishlist with an empty array in the productIds field for the second user', async () => {
+      const emptyCartOne = {
+        ...cartOne,
+        productIds: [],
+      };
+      prismaMock.carts.delete.mockResolvedValue(emptyCartOne);
+
+      const result = await service.remove(emptyCartOne.userId);
+
+      expect(result).toEqual(emptyCartOne);
       expect(prismaMock.carts.delete).toHaveBeenCalledWith({
         where: {
           userId: cartOne.userId,

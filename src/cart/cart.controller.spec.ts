@@ -110,5 +110,20 @@ describe('CartController', () => {
       expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
       expect(serviceMock.remove).toHaveBeenCalledTimes(1);
     });
+
+    it('should return a wishlist with an empty array in the productIds field for the second user', async () => {
+      const emptyCartOne = {
+        ...cartOne,
+        productIds: [],
+      };
+      serviceMock.remove.mockResolvedValue(emptyCartOne);
+      const params = { id: emptyCartOne.userId };
+
+      const result = await controller.remove(params);
+
+      expect(result).toEqual(emptyCartOne);
+      expect(serviceMock.remove).toHaveBeenCalledWith(params.id);
+      expect(serviceMock.remove).toHaveBeenCalledTimes(1);
+    });
   });
 });

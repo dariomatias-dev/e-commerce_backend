@@ -230,5 +230,37 @@ describe('CartService', () => {
       });
       expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
     });
+
+    it('', async () => {
+      prismaMock.carts.delete.mockResolvedValue(cartTwo);
+
+      const result = await service.remove(cartTwo.userId);
+
+      expect(result).toEqual(cartTwo);
+      expect(prismaMock.carts.delete).toHaveBeenCalledWith({
+        where: {
+          userId: cartTwo.userId,
+        },
+      });
+      expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
+    });
+
+    it('', async () => {
+      const emptyCartTwo = {
+        ...cartTwo,
+        productIds: [],
+      };
+      prismaMock.carts.delete.mockResolvedValue(emptyCartTwo);
+
+      const result = await service.remove(emptyCartTwo.userId);
+
+      expect(result).toEqual(emptyCartTwo);
+      expect(prismaMock.carts.delete).toHaveBeenCalledWith({
+        where: {
+          userId: emptyCartTwo.userId,
+        },
+      });
+      expect(prismaMock.carts.delete).toHaveBeenCalledTimes(1);
+    });
   });
 });

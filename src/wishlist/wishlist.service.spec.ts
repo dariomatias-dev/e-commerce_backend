@@ -104,6 +104,29 @@ describe('WishlistService', () => {
       });
       expect(prismaMock.wishlists.update).toHaveBeenCalledTimes(1);
     });
+
+    it('should return an empty array corresponding to the ids of the products in the record that were updated based on the first wishlist ID', async () => {
+      const updatedField = { productIds: [] };
+      const updatedWishlistOne = {
+        ...wishlistOne,
+        productIds: [],
+      };
+      prismaMock.wishlists.update.mockResolvedValue(updatedWishlistOne);
+
+      const result = await service.update(
+        updatedWishlistOne.userId,
+        updatedField,
+      );
+
+      expect(result).toEqual(updatedWishlistOne.productIds);
+      expect(prismaMock.wishlists.update).toHaveBeenCalledWith({
+        where: {
+          userId: updatedWishlistOne.userId,
+        },
+        data: updatedField,
+      });
+      expect(prismaMock.wishlists.update).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('delete', () => {

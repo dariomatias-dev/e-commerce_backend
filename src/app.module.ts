@@ -15,6 +15,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
 
 import { OrderModule } from './order/order.module';
 import { AuthModule } from './auth/auth.module';
+import { PhysicalPersonUserModule } from './physical-person-user/physical-person-user.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
     WishlistModule,
     OrderModule,
     AuthModule,
+    PhysicalPersonUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

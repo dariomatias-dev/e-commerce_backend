@@ -1,27 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import { PrismaService } from 'src/prisma/prisma.service';
 
 import { CreatePhysicalPersonUserDto } from './dto/create-physical-person-user.dto';
 import { UpdatePhysicalPersonUserDto } from './dto/update-physical-person-user.dto';
 
 @Injectable()
 export class PhysicalPersonUserService {
-  create(createPhysicalPersonUserDto: CreatePhysicalPersonUserDto) {
-    return 'This action adds a new physicalPersonUser';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createPhysicalPersonUserDto: CreatePhysicalPersonUserDto) {
+    const physicalPersonUser = await this.prisma.physicalPersonUsers.create({
+      data: createPhysicalPersonUserDto,
+    });
+
+    return physicalPersonUser;
   }
 
-  findAll() {
-    return `This action returns all physicalPersonUser`;
+  async findAll() {
+    const physicalPersonUsers =
+      await this.prisma.physicalPersonUsers.findMany();
+
+    return physicalPersonUsers;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} physicalPersonUser`;
+  async findOne(id: string) {
+    const physicalPersonUser = await this.prisma.physicalPersonUsers.findUnique(
+      {
+        where: { id },
+      },
+    );
+
+    if (!physicalPersonUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    return physicalPersonUser;
   }
 
-  update(id: number, updatePhysicalPersonUserDto: UpdatePhysicalPersonUserDto) {
-    return `This action updates a #${id} physicalPersonUser`;
+  async update(
+    id: string,
+    updatePhysicalPersonUserDto: UpdatePhysicalPersonUserDto,
+  ) {
+    const physicalPersonUser = await this.prisma.physicalPersonUsers.update({
+      where: { id },
+      data: updatePhysicalPersonUserDto,
+    });
+
+    return physicalPersonUser;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} physicalPersonUser`;
+  async remove(id: string) {
+    const physicalPersonUser = await this.prisma.physicalPersonUsers.delete({
+      where: { id },
+    });
+
+    return physicalPersonUser;
   }
 }

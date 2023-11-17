@@ -13,9 +13,10 @@ CREATE TABLE "physicalPersonUser" (
     "address" TEXT NOT NULL,
     "cep" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "roles" TEXT[],
     "termsOfUse" BOOLEAN NOT NULL,
     "receiveMessages" BOOLEAN NOT NULL,
-    "adminPassword" TEXT,
+    "refreshTokenId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -40,10 +41,21 @@ CREATE TABLE "legalPersonUser" (
     "password" TEXT NOT NULL,
     "termsOfUse" BOOLEAN NOT NULL,
     "receiveMessages" BOOLEAN NOT NULL,
+    "refreshTokenId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "legalPersonUser_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "refresh_token" (
+    "id" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "refresh_token_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -128,6 +140,9 @@ CREATE UNIQUE INDEX "physicalPersonUser_rg_key" ON "physicalPersonUser"("rg");
 CREATE UNIQUE INDEX "physicalPersonUser_email_key" ON "physicalPersonUser"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "physicalPersonUser_refreshTokenId_key" ON "physicalPersonUser"("refreshTokenId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "legalPersonUser_cnpj_key" ON "legalPersonUser"("cnpj");
 
 -- CreateIndex
@@ -146,10 +161,22 @@ CREATE UNIQUE INDEX "legalPersonUser_email_key" ON "legalPersonUser"("email");
 CREATE UNIQUE INDEX "legalPersonUser_phone_key" ON "legalPersonUser"("phone");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "legalPersonUser_refreshTokenId_key" ON "legalPersonUser"("refreshTokenId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "refresh_token_token_key" ON "refresh_token"("token");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
+
+-- AddForeignKey
+ALTER TABLE "physicalPersonUser" ADD CONSTRAINT "physicalPersonUser_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "legalPersonUser" ADD CONSTRAINT "legalPersonUser_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

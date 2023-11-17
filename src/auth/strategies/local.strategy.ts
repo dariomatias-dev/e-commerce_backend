@@ -23,7 +23,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     body.password = password;
     await this._isValidData(body);
 
-    const user = await this.authService.validateUser(email, password);
+    //const user = await this.authService.validateUser(email, password);
+    const user = {} as UserFromJwt;
 
     return user;
   }

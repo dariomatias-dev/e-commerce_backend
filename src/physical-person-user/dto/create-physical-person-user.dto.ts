@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsDate,
+  IsDateString,
   IsEmail,
   IsNotEmpty,
   IsString,
@@ -26,10 +26,10 @@ export class CreatePhysicalPersonUserDto {
   @IsText()
   lastName: string;
 
-  @IsDate()
+  @IsDateString()
   dateOfBirth: Date;
 
-  @Matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+  @Matches(/^\+\d{2} \d{2} \d{5}-\d{4}$/, {
     message: 'Invalid phone number',
   })
   @IsNotEmpty()

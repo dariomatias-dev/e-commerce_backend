@@ -1,7 +1,7 @@
 import { FastifyRequest } from 'fastify';
 
-import { User } from 'src/user/entities/user.entity';
+import { PhysicalPersonUser } from 'src/physical-person-user/entities/physical-person-user.entity';
 
 export interface AuthRequest extends FastifyRequest {
-  user: User;
+  user: PhysicalPersonUser;
 }

@@ -24,9 +24,12 @@ model PhysicalPersonUsers {
   address         String
   cep             String
   password        String
+  roles           String[]
   termsOfUse      Boolean
   receiveMessages Boolean
-  adminPassword   String?
+
+  refreshTokenId String?       @unique
+  refreshToken   RefreshToken? @relation(fields: [refreshTokenId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -52,10 +55,26 @@ model LegalPersonUsers {
   termsOfUse        Boolean
   receiveMessages   Boolean
 
+  refreshTokenId String?       @unique
+  refreshToken   RefreshToken? @relation(fields: [refreshTokenId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("legalPersonUser")
+}
+
+model RefreshToken {
+  id    String @id @default(uuid())
+  token String @unique
+
+  physicalPersonUsers PhysicalPersonUsers?
+  legalPersonUsers    LegalPersonUsers?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("refresh_token")
 }
 
 model Wishlists {

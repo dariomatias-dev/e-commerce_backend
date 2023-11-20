@@ -8,6 +8,7 @@ import { PersonalAccountModule } from './personal-account/personal-account.modul
 import { PrismaModule } from './prisma/prisma.module';
 import { ProductModule } from './product/product.module';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { BusinessAccountModule } from './business-account/business-account.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
     OrderModule,
     AuthModule,
     PersonalAccountModule,
+    BusinessAccountModule,
   ],
   controllers: [],
   providers: [],

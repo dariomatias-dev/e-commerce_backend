@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 import { CreateBusinessAccountDto } from './dto/create-business-account.dto';
 import { UpdateBusinessAccountDto } from './dto/update-business-account.dto';
@@ -10,8 +11,14 @@ export class BusinessAccountService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createBusinessAccountDto: CreateBusinessAccountDto) {
+    const password = createBusinessAccountDto.password;
+    const encryptedPassword = await bcrypt.hash(password, 10);
+
     const user = await this.prisma.businessAccounts.create({
-      data: createBusinessAccountDto,
+      data: {
+        password: encryptedPassword,
+        ...createBusinessAccountDto,
+      },
     });
 
     return user;
@@ -40,9 +47,16 @@ export class BusinessAccountService {
   }
 
   async update(id: string, updateBusinessAccountDto: UpdateBusinessAccountDto) {
+    const password = updateBusinessAccountDto.password;
+    const encryptedPassword =
+      password != null ? await bcrypt.hash(password, 10) : null;
+
     const account = await this.prisma.businessAccounts.update({
       where: { id },
-      data: updateBusinessAccountDto,
+      data: {
+        password: encryptedPassword,
+        ...updateBusinessAccountDto,
+      },
     });
 
     return account;

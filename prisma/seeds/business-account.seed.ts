@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 
-const seedLegalPersonUsers = async (prisma: PrismaClient) => {
-  await prisma.legalPersonUsers.deleteMany();
+export const businessAccountSeed = async (prisma: PrismaClient) => {
+  await prisma.businessAccounts.deleteMany();
 
   await Promise.all([
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '3f06b3b7-28cf-46d9-9e56-9121af4a3710',
         fantasyName: 'FastTech Solutions',
@@ -24,7 +24,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'f2bbd0e8-8a4c-4e7a-b6db-989a3dd581c9',
         fantasyName: 'ProCloud Solutions',
@@ -44,7 +44,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'a873c02e-9ad1-468c-9160-53c23414b852',
         fantasyName: 'GlobeTech',
@@ -64,7 +64,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '5c7cf4ca-bbaf-44c7-8c47-d22ca2f8113e',
         fantasyName: 'DigitalTech Labs',
@@ -84,7 +84,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'f1a5bf3b-d60e-4b91-8c56-2ff3f36c4997',
         fantasyName: 'EcoTech',
@@ -104,7 +104,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '8dbbd4d9-9635-4e34-9b9f-13b89c30cb4e',
         fantasyName: 'TechConnect Group',
@@ -124,7 +124,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '93c8dc44-6f8a-43e2-8d7a-92ea16b03e7e',
         fantasyName: 'InnoTech Innovations',
@@ -144,7 +144,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'd6a3c2bb-315b-4a98-8f09-451891d0ab09',
         fantasyName: 'TechGenius Solutions',
@@ -164,7 +164,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'b219f505-98e7-47aa-8691-0f384f0d52df',
         fantasyName: 'InnoSoft Technologies',
@@ -184,7 +184,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'cb907c71-36a1-4c39-8c5a-785135071c95',
         fantasyName: 'DataTech',
@@ -204,7 +204,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'c2b46247-52f2-46b1-9b4e-8191448ec171',
         fantasyName: 'SmartSys',
@@ -224,7 +224,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '7dd3b0e6-781b-4cd7-878b-4f2d0488d962',
         fantasyName: 'TechPro',
@@ -244,7 +244,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '4dc6609a-c6d8-4d54-93f9-219c64f6d7f1',
         fantasyName: 'TechHub',
@@ -265,7 +265,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'ed7fc8b6-5ee1-4c74-963e-143e3c6f9a97',
         fantasyName: 'DataPro',
@@ -285,7 +285,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '1a47c5c0-24c2-442d-8a6f-6ad49be09609',
         fantasyName: 'InnoWeb Solutions',
@@ -305,7 +305,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '24525d18-633a-4b6d-8ee0-3f3b8a15c5a1',
         fantasyName: 'TechExpert Solutions',
@@ -325,7 +325,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: 'd3df05b3-ee99-45da-92be-e16ca17b1511',
         fantasyName: 'InnoCloud',
@@ -345,7 +345,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '0bdc92e2-d180-4ce5-aa94-13f4f6f1afaa',
         fantasyName: 'Meta Tech',
@@ -366,7 +366,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '0b18539d-4f05-4dc9-9cd2-7f6fdd46eab1',
         fantasyName: 'InnoLogix',
@@ -386,7 +386,7 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.legalPersonUsers.create({
+    prisma.businessAccounts.create({
       data: {
         id: '4b6098b8-942b-4b6e-891b-d9c6ff8449b7',
         fantasyName: 'TechPlus Solutions',
@@ -408,5 +408,3 @@ const seedLegalPersonUsers = async (prisma: PrismaClient) => {
     }),
   ]);
 };
-
-export default seedLegalPersonUsers;

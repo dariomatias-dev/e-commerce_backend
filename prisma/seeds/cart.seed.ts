@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-const seedCarts = async (prisma: PrismaClient) => {
+export const cartSeed = async (prisma: PrismaClient) => {
   await prisma.carts.deleteMany();
 
   await Promise.all([
@@ -21,5 +21,3 @@ const seedCarts = async (prisma: PrismaClient) => {
     }),
   ]);
 };
-
-export default seedCarts;

@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 
-const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
-  await prisma.physicalPersonUsers.deleteMany();
+export const personalAccountSeed = async (prisma: PrismaClient) => {
+  await prisma.personalAccounts.deleteMany();
 
   await Promise.all([
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '57e99e52-753e-4da7-8a67-a6286edd2ee4',
         firstName: 'John',
@@ -23,7 +23,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'f8a5ded4-9247-44c2-a794-15aa5ff6fda1',
         firstName: 'Emily',
@@ -42,7 +42,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'df942326-5cfc-48eb-adc9-ad269d91974e',
         firstName: 'Liam',
@@ -61,7 +61,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'f0d33f1f-dabe-4389-b16f-fb4e59812456',
         firstName: 'Sophia',
@@ -80,7 +80,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'f9a88d43-87e0-4330-b4c6-7fa84f117190',
         firstName: 'Oliver',
@@ -99,7 +99,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'c024b2c8-41dd-43a7-b366-93fca49ce8e5',
         firstName: 'Ava',
@@ -118,7 +118,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '2276f35e-0b6b-4e96-8f5e-799c53260e34',
         firstName: 'Noah',
@@ -137,7 +137,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'becda7ee-3b62-49af-8349-b01f29336624',
         firstName: 'Emma',
@@ -156,7 +156,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '8edfc04b-d884-45eb-b833-81c32d143bc6',
         firstName: 'Liam',
@@ -175,7 +175,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '5113e130-c020-450d-a232-24f6af372d84',
         firstName: 'Olivia',
@@ -194,7 +194,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '11a4a5b3-d36b-4f7b-a26f-0d454f50e405',
         firstName: 'Noah',
@@ -213,7 +213,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '765195f4-c29e-41d9-88be-e3f3c04bac5d',
         firstName: 'James',
@@ -232,7 +232,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '36ef110e-100c-4fa8-b609-700df539caf4',
         firstName: 'Isabella',
@@ -251,7 +251,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'b964ba88-c9e5-48a4-9b27-7d92544c1748',
         firstName: 'Mia',
@@ -270,7 +270,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '28dd3e7b-6e4e-4f29-8ecf-7045574472a3',
         firstName: 'Alexander',
@@ -289,7 +289,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '475cd22c-9d5d-4202-9b95-f2a6040b96dd',
         firstName: 'Charlotte',
@@ -308,7 +308,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '2bc5ff61-eed1-4076-865b-1884a9f819b9',
         firstName: 'Jackson',
@@ -327,7 +327,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: true,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'e82df5d9-1458-43ed-bbe6-9440806e8950',
         firstName: 'Ava',
@@ -346,7 +346,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: '0901f7e2-f993-4f60-ad97-a6ea912632bd',
         firstName: 'William',
@@ -365,7 +365,7 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
         receiveMessages: false,
       },
     }),
-    prisma.physicalPersonUsers.create({
+    prisma.personalAccounts.create({
       data: {
         id: 'c5d65cfa-e2fb-4d43-a550-46a29bcce265',
         firstName: 'Olivia',
@@ -386,5 +386,3 @@ const seedPhysicalPersonUsers = async (prisma: PrismaClient) => {
     }),
   ]);
 };
-
-export default seedPhysicalPersonUsers;

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "physicalPersonUser" (
+CREATE TABLE "personalAccount" (
     "id" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
@@ -20,11 +20,11 @@ CREATE TABLE "physicalPersonUser" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "physicalPersonUser_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "personalAccount_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "legalPersonUser" (
+CREATE TABLE "businessAccount" (
     "id" TEXT NOT NULL,
     "fantasyName" TEXT NOT NULL,
     "corporateName" TEXT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE "legalPersonUser" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "legalPersonUser_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "businessAccount_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -128,40 +128,40 @@ CREATE TABLE "orderItem" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "physicalPersonUser_phone_key" ON "physicalPersonUser"("phone");
+CREATE UNIQUE INDEX "personalAccount_phone_key" ON "personalAccount"("phone");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "physicalPersonUser_cpf_key" ON "physicalPersonUser"("cpf");
+CREATE UNIQUE INDEX "personalAccount_cpf_key" ON "personalAccount"("cpf");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "physicalPersonUser_rg_key" ON "physicalPersonUser"("rg");
+CREATE UNIQUE INDEX "personalAccount_rg_key" ON "personalAccount"("rg");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "physicalPersonUser_email_key" ON "physicalPersonUser"("email");
+CREATE UNIQUE INDEX "personalAccount_email_key" ON "personalAccount"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "physicalPersonUser_refreshTokenId_key" ON "physicalPersonUser"("refreshTokenId");
+CREATE UNIQUE INDEX "personalAccount_refreshTokenId_key" ON "personalAccount"("refreshTokenId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_cnpj_key" ON "legalPersonUser"("cnpj");
+CREATE UNIQUE INDEX "businessAccount_cnpj_key" ON "businessAccount"("cnpj");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_stateRegistration_key" ON "legalPersonUser"("stateRegistration");
+CREATE UNIQUE INDEX "businessAccount_stateRegistration_key" ON "businessAccount"("stateRegistration");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_cpf_key" ON "legalPersonUser"("cpf");
+CREATE UNIQUE INDEX "businessAccount_cpf_key" ON "businessAccount"("cpf");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_rg_key" ON "legalPersonUser"("rg");
+CREATE UNIQUE INDEX "businessAccount_rg_key" ON "businessAccount"("rg");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_email_key" ON "legalPersonUser"("email");
+CREATE UNIQUE INDEX "businessAccount_email_key" ON "businessAccount"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_phone_key" ON "legalPersonUser"("phone");
+CREATE UNIQUE INDEX "businessAccount_phone_key" ON "businessAccount"("phone");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "legalPersonUser_refreshTokenId_key" ON "legalPersonUser"("refreshTokenId");
+CREATE UNIQUE INDEX "businessAccount_refreshTokenId_key" ON "businessAccount"("refreshTokenId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "refresh_token_token_key" ON "refresh_token"("token");
@@ -173,10 +173,10 @@ CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
 
 -- AddForeignKey
-ALTER TABLE "physicalPersonUser" ADD CONSTRAINT "physicalPersonUser_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "personalAccount" ADD CONSTRAINT "personalAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "legalPersonUser" ADD CONSTRAINT "legalPersonUser_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "businessAccount" ADD CONSTRAINT "businessAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

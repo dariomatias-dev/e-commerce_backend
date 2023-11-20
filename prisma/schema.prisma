@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PhysicalPersonUsers {
+model PersonalAccounts {
   id              String   @id @default(uuid())
   firstName       String
   lastName        String
@@ -34,10 +34,10 @@ model PhysicalPersonUsers {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("physicalPersonUser")
+  @@map("personalAccount")
 }
 
-model LegalPersonUsers {
+model BusinessAccounts {
   id                String  @id @default(uuid())
   fantasyName       String
   corporateName     String
@@ -61,15 +61,15 @@ model LegalPersonUsers {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("legalPersonUser")
+  @@map("businessAccount")
 }
 
 model RefreshToken {
   id    String @id @default(uuid())
   token String @unique
 
-  physicalPersonUsers PhysicalPersonUsers?
-  legalPersonUsers    LegalPersonUsers?
+  physicalPersonUsers PersonalAccounts?
+  legalPersonUsers    BusinessAccounts?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

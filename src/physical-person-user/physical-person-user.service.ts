@@ -38,6 +38,16 @@ export class PhysicalPersonUserService {
     return physicalPersonUser;
   }
 
+  async findOneByEmail(email: string) {
+    const user = await this.prisma.physicalPersonUsers.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  }
+
   async update(
     id: string,
     updatePhysicalPersonUserDto: UpdatePhysicalPersonUserDto,

@@ -3,25 +3,56 @@ import { Injectable } from '@nestjs/common';
 import { CreateBusinessAccountDto } from './dto/create-business-account.dto';
 import { UpdateBusinessAccountDto } from './dto/update-business-account.dto';
 
+import { PrismaService } from 'src/prisma/prisma.service';
+
 @Injectable()
 export class BusinessAccountService {
-  create(createBusinessAccountDto: CreateBusinessAccountDto) {
-    return 'This action adds a new businessAccount';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createBusinessAccountDto: CreateBusinessAccountDto) {
+    const user = await this.prisma.businessAccounts.create({
+      data: createBusinessAccountDto,
+    });
+
+    return user;
   }
 
-  findAll() {
-    return `This action returns all businessAccount`;
+  async findAll() {
+    const accounts = await this.prisma.businessAccounts.findMany();
+
+    return accounts;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} businessAccount`;
+  async findOne(id: string) {
+    const account = await this.prisma.businessAccounts.findUnique({
+      where: { id },
+    });
+
+    return account;
   }
 
-  update(id: number, updateBusinessAccountDto: UpdateBusinessAccountDto) {
-    return `This action updates a #${id} businessAccount`;
+  async findOneByEmaiil(email: string) {
+    const account = await this.prisma.businessAccounts.findUnique({
+      where: { email },
+    });
+
+    return account;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} businessAccount`;
+  async update(id: string, updateBusinessAccountDto: UpdateBusinessAccountDto) {
+    const account = await this.prisma.businessAccounts.update({
+      where: { id },
+      data: updateBusinessAccountDto,
+    });
+
+    return account;
+  }
+
+  async remove(id: string) {
+    const account = await this.prisma.businessAccounts.delete({
+      where: { id },
+    });
+
+    return account;
   }
 }

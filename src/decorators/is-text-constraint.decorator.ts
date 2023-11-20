@@ -8,7 +8,7 @@ import {
 @ValidatorConstraint({ name: 'customText', async: false })
 export class IsTextConstraint implements ValidatorConstraintInterface {
   validate(text: string) {
-    const regex = /^[a-zA-Z\s]+$/;
+    const regex = /^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/;
 
     return regex.test(text);
   }

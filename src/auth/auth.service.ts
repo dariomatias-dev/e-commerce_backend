@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
-import { PhysicalPersonUserService } from './../physical-person-user/physical-person-user.service';
-
-import { UnauthorizedError } from './errors/unauthorized.error';
+import { PersonalAccountService } from 'src/personal-account/personal-account.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly physicalPersonUserService: PhysicalPersonUserService,
+    private readonly physicalPersonUserService: PersonalAccountService,
   ) {}
 
   async validateUser(email: string, password: string) {

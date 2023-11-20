@@ -11,7 +11,7 @@ import {
 
 import { IsText } from 'src/decorators/is-text-constraint.decorator';
 
-export class CreatePhysicalPersonUserDto {
+export class CreatePersonalAccountDto {
   @MaxLength(24)
   @MinLength(3)
   @IsNotEmpty()

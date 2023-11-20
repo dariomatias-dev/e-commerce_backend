@@ -1,4 +1,4 @@
-export class PhysicalPersonUser {
+export class PersonalAccount {
   firstName: string;
   lastName: string;
   dateOfBirth: Date;

@@ -3,10 +3,10 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { TokenType } from 'src/enums/token_type';
-import { PhysicalPersonUser } from 'src/physical-person-user/entities/physical-person-user.entity';
-import { PhysicalPersonUserService } from 'src/physical-person-user/physical-person-user.service';
 
+import { PersonalAccountService } from 'src/personal-account/personal-account.service';
 import { UserFromJwt } from '../models/UserFromJwt';
+import { PersonalAccount } from 'src/personal-account/entities/personal-account.entity';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
@@ -14,7 +14,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   'refresh_token_strategy',
 ) {
   constructor(
-    private readonly physicalPersonUserService: PhysicalPersonUserService,
+    private readonly physicalPersonUserService: PersonalAccountService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -33,9 +33,9 @@ export class RefreshTokenStrategy extends PassportStrategy(
     return user;
   }
 
-  private async _validateUser(email: string): Promise<PhysicalPersonUser> {
+  private async _validateUser(email: string): Promise<PersonalAccount> {
     //const user = await this.physicalPersonUserService.findByEmail(email);
-    const user = {} as PhysicalPersonUser;
+    const user = {} as PersonalAccount;
 
     if (user) {
       return user;

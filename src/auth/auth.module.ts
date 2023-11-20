@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-
 import { JwtModule } from '@nestjs/jwt';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { PhysicalPersonUserService } from 'src/physical-person-user/physical-person-user.service';
+
+import { PersonalAccountService } from 'src/personal-account/personal-account.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { PhysicalPersonUserService } from 'src/physical-person-user/physical-per
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PhysicalPersonUserService],
+  providers: [AuthService, PersonalAccountService],
 })
 export class AuthModule {}

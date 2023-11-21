@@ -1,4 +1,7 @@
+import { AccountType } from 'src/enums/account_type.enum';
+
 export class BusinessAccount {
+  id: string;
   fantasyName: string;
   corporateName: string;
   cnpj: string;
@@ -12,6 +15,8 @@ export class BusinessAccount {
   address: string;
   cep: string;
   password: string;
+  roles: string[];
   termsOfUse: boolean;
   receiveMessages: boolean;
+  accountType?: AccountType;
 }

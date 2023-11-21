@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh_token.strategy';
 
+import { BusinessAccountService } from 'src/resources/business-account/business-account.service';
 import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
 
 @Module({
@@ -22,6 +23,7 @@ import { PersonalAccountService } from 'src/resources/personal-account/personal-
   controllers: [AuthController],
   providers: [
     PersonalAccountService,
+    BusinessAccountService,
     AuthService,
     LocalStrategy,
     JwtStrategy,

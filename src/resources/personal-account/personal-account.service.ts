@@ -1,11 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
+import { PersonalAccount } from './entities/personal-account.entity';
+
 import { CreatePersonalAccountDto } from './dto/create-personal-account.dto';
 import { UpdatePersonalAccountDto } from './dto/update-personal-account.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
+import { AccountType } from 'src/enums/account_type.enum';
 import { Role } from 'src/enums/role.enum';
 
 @Injectable()
@@ -56,14 +59,21 @@ export class PersonalAccountService {
     return PersonalAccount;
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<PersonalAccount> {
     const user = await this.prisma.personalAccounts.findUnique({
       where: {
         email,
       },
     });
 
-    return user;
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...user,
+      accountType: AccountType.Personal,
+    };
   }
 
   async update(id: string, updatePersonalAccountDto: UpdatePersonalAccountDto) {

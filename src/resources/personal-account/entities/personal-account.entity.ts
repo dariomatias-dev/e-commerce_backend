@@ -1,3 +1,5 @@
+import { AccountType } from 'src/enums/account_type.enum';
+
 export class PersonalAccount {
   id: string;
   firstName: string;
@@ -15,4 +17,5 @@ export class PersonalAccount {
   roles: string[];
   termsOfUse: boolean;
   receiveMessages: boolean;
+  accountType?: AccountType;
 }

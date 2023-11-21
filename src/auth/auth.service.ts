@@ -11,20 +11,29 @@ import { TokenType } from 'src/enums/token_type';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
+import { BusinessAccountService } from 'src/resources/business-account/business-account.service';
+import { BusinessAccount } from 'src/resources/business-account/entities/business-account.entity';
 import { PersonalAccount } from 'src/resources/personal-account/entities/personal-account.entity';
 import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
+import { UserFromJwt } from './models/UserFromJwt';
+import { AccountType } from 'src/enums/account_type.enum';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly personalAccountService: PersonalAccountService,
+    private readonly businessAccountService: BusinessAccountService,
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
   ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.personalAccountService.findByEmail(email);
+    let user: PersonalAccount | BusinessAccount =
+      await this.personalAccountService.findByEmail(email);
 
+    if (!user) {
+      user = await this.businessAccountService.findByEmail(email);
+    }
     if (user) {
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
@@ -33,6 +42,7 @@ export class AuthService {
           id: user.id,
           email: user.email,
           roles: user.roles,
+          accountType: user.accountType,
         };
       }
     }
@@ -42,7 +52,7 @@ export class AuthService {
     );
   }
 
-  async generateTokens(user: PersonalAccount): Promise<Tokens> {
+  async generateTokens(user: UserFromJwt): Promise<Tokens> {
     const access_token = await this._generateToken(
       user,
       TokenType.Access,
@@ -55,7 +65,7 @@ export class AuthService {
       '7d',
     );
 
-    await this.prisma.personalAccounts.update({
+    const userRefreshTokenUpdate = {
       where: {
         email: user.email,
       },
@@ -71,7 +81,13 @@ export class AuthService {
           },
         },
       },
-    });
+    };
+
+    if (user.accountType == AccountType.Personal) {
+      await this.prisma.personalAccounts.update(userRefreshTokenUpdate);
+    } else {
+      await this.prisma.businessAccounts.update(userRefreshTokenUpdate);
+    }
 
     return {
       access_token,
@@ -80,7 +96,7 @@ export class AuthService {
   }
 
   private async _generateToken(
-    user: PersonalAccount,
+    user: UserFromJwt,
     tokenType: TokenType,
     expiresIn: string,
   ) {

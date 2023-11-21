@@ -4,6 +4,9 @@ import * as bcrypt from 'bcrypt';
 import { CreateBusinessAccountDto } from './dto/create-business-account.dto';
 import { UpdateBusinessAccountDto } from './dto/update-business-account.dto';
 
+import { AccountType } from 'src/enums/account_type.enum';
+import { Role } from 'src/enums/role.enum';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -16,8 +19,9 @@ export class BusinessAccountService {
 
     const user = await this.prisma.businessAccounts.create({
       data: {
-        password: encryptedPassword,
         ...createBusinessAccountDto,
+        password: encryptedPassword,
+        roles: [Role.User],
       },
     });
 
@@ -38,12 +42,19 @@ export class BusinessAccountService {
     return account;
   }
 
-  async findByEmaiil(email: string) {
-    const account = await this.prisma.businessAccounts.findUnique({
+  async findByEmail(email: string) {
+    const user = await this.prisma.businessAccounts.findUnique({
       where: { email },
     });
 
-    return account;
+    if (!user) {
+      return null;
+    }
+
+    return {
+      ...user,
+      accountType: AccountType.Business,
+    };
   }
 
   async update(id: string, updateBusinessAccountDto: UpdateBusinessAccountDto) {
@@ -54,8 +65,8 @@ export class BusinessAccountService {
     const account = await this.prisma.businessAccounts.update({
       where: { id },
       data: {
-        password: encryptedPassword,
         ...updateBusinessAccountDto,
+        password: encryptedPassword,
       },
     });
 

@@ -39,6 +39,7 @@ CREATE TABLE "businessAccount" (
     "address" TEXT NOT NULL,
     "cep" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "roles" TEXT[],
     "termsOfUse" BOOLEAN NOT NULL,
     "receiveMessages" BOOLEAN NOT NULL,
     "refreshTokenId" TEXT,
@@ -49,13 +50,13 @@ CREATE TABLE "businessAccount" (
 );
 
 -- CreateTable
-CREATE TABLE "refresh_token" (
+CREATE TABLE "refreshToken" (
     "id" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "refresh_token_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "refreshToken_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -164,7 +165,7 @@ CREATE UNIQUE INDEX "businessAccount_phone_key" ON "businessAccount"("phone");
 CREATE UNIQUE INDEX "businessAccount_refreshTokenId_key" ON "businessAccount"("refreshTokenId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "refresh_token_token_key" ON "refresh_token"("token");
+CREATE UNIQUE INDEX "refreshToken_token_key" ON "refreshToken"("token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
@@ -173,10 +174,10 @@ CREATE UNIQUE INDEX "category_name_key" ON "category"("name");
 CREATE UNIQUE INDEX "product_name_key" ON "product"("name");
 
 -- AddForeignKey
-ALTER TABLE "personalAccount" ADD CONSTRAINT "personalAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "personalAccount" ADD CONSTRAINT "personalAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refreshToken"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "businessAccount" ADD CONSTRAINT "businessAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refresh_token"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "businessAccount" ADD CONSTRAINT "businessAccount_refreshTokenId_fkey" FOREIGN KEY ("refreshTokenId") REFERENCES "refreshToken"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "orderItem" ADD CONSTRAINT "orderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE CASCADE ON UPDATE CASCADE;

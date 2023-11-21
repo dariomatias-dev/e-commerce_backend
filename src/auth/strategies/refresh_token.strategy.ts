@@ -6,6 +6,7 @@ import { UserFromJwt } from '../models/UserFromJwt';
 
 import { TokenType } from 'src/enums/token_type';
 
+import { BusinessAccount } from 'src/resources/business-account/entities/business-account.entity';
 import { PersonalAccount } from 'src/resources/personal-account/entities/personal-account.entity';
 import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
 
@@ -33,11 +34,14 @@ export class RefreshTokenStrategy extends PassportStrategy(
   }
 
   private async _validateUser(email: string): Promise<PersonalAccount> {
-    const user = await this.personalAccountService.findByEmail(email);
+    let user: PersonalAccount | BusinessAccount =
+      await this.personalAccountService.findByEmail(email);
 
-    if (user) {
-      return user;
+    if (!user) {
+      user = await this.personalAccountService.findByEmail(email);
     }
+
+    if (user) return user;
 
     throw new UnauthorizedException('Invalid refresh token');
   }

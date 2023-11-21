@@ -38,20 +38,21 @@ model PersonalAccounts {
 }
 
 model BusinessAccounts {
-  id                String  @id @default(uuid())
+  id                String   @id @default(uuid())
   fantasyName       String
   corporateName     String
-  cnpj              String  @unique
-  stateRegistration String  @unique
-  cpf               String  @unique
-  rg                String  @unique
-  email             String  @unique
-  phone             String  @unique
+  cnpj              String   @unique
+  stateRegistration String   @unique
+  cpf               String   @unique
+  rg                String   @unique
+  email             String   @unique
+  phone             String   @unique
   state             String
   city              String
   address           String
   cep               String
   password          String
+  roles             String[]
   termsOfUse        Boolean
   receiveMessages   Boolean
 
@@ -68,13 +69,13 @@ model RefreshToken {
   id    String @id @default(uuid())
   token String @unique
 
-  physicalPersonUsers PersonalAccounts?
-  legalPersonUsers    BusinessAccounts?
+  personalAccounts PersonalAccounts?
+  businessAccounts BusinessAccounts?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("refresh_token")
+  @@map("refreshToken")
 }
 
 model Wishlists {

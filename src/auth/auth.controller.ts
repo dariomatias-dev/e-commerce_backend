@@ -25,7 +25,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   login(@Request() req: AuthRequest) {
-    return this.authService.login(req.user);
+    return this.authService.generateTokens(req.user);
   }
 
   @IsPublic()
@@ -33,6 +33,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(RefreshTokenGuard)
   refresh(@Request() req: AuthRequest) {
-    return this.authService.refresh(req.user);
+    return this.authService.generateTokens(req.user);
   }
 }

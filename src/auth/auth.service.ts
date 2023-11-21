@@ -6,7 +6,6 @@ import { UnauthorizedError } from './errors/unauthorized.error';
 
 import { Tokens } from './models/Tokens';
 import { UserPayload } from './models/UserPayload';
-import { UserToken } from './models/UserToken';
 
 import { TokenType } from 'src/enums/token_type';
 
@@ -22,44 +21,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
   ) {}
-
-  async login(user: PersonalAccount): Promise<UserToken> {
-    const tokens = await this._generateTokens(user);
-
-    await this.prisma.personalAccounts.update({
-      where: {
-        email: user.email,
-      },
-      data: {
-        refreshToken: {
-          create: {
-            token: tokens.refresh_token,
-          },
-        },
-      },
-    });
-
-    return tokens;
-  }
-
-  async refresh(user: PersonalAccount) {
-    const tokens = await this._generateTokens(user);
-
-    await this.prisma.personalAccounts.update({
-      where: {
-        email: user.email,
-      },
-      data: {
-        refreshToken: {
-          update: {
-            token: tokens.refresh_token,
-          },
-        },
-      },
-    });
-
-    return tokens;
-  }
 
   async validateUser(email: string, password: string) {
     const user = await this.personalAccountService.findByEmail(email);
@@ -81,7 +42,7 @@ export class AuthService {
     );
   }
 
-  private async _generateTokens(user: PersonalAccount): Promise<Tokens> {
+  async generateTokens(user: PersonalAccount): Promise<Tokens> {
     const access_token = await this._generateToken(
       user,
       TokenType.Access,
@@ -93,6 +54,24 @@ export class AuthService {
       TokenType.Refresh,
       '7d',
     );
+
+    await this.prisma.personalAccounts.update({
+      where: {
+        email: user.email,
+      },
+      data: {
+        refreshToken: {
+          upsert: {
+            create: {
+              token: refresh_token,
+            },
+            update: {
+              token: refresh_token,
+            },
+          },
+        },
+      },
+    });
 
     return {
       access_token,

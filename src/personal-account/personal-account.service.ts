@@ -16,8 +16,8 @@ export class PersonalAccountService {
 
     const PersonalAccount = await this.prisma.personalAccounts.create({
       data: {
-        password: encryptedPassword,
         ...createPersonalAccountDto,
+        password: encryptedPassword,
       },
     });
 
@@ -42,7 +42,7 @@ export class PersonalAccountService {
     return PersonalAccount;
   }
 
-  async findOneByEmail(email: string) {
+  async findByEmail(email: string) {
     const user = await this.prisma.personalAccounts.findUnique({
       where: {
         email,

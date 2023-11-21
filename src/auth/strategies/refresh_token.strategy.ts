@@ -2,11 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+import { UserFromJwt } from '../models/UserFromJwt';
+
 import { TokenType } from 'src/enums/token_type';
 
-import { PersonalAccountService } from 'src/personal-account/personal-account.service';
-import { UserFromJwt } from '../models/UserFromJwt';
 import { PersonalAccount } from 'src/personal-account/entities/personal-account.entity';
+import { PersonalAccountService } from 'src/personal-account/personal-account.service';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
@@ -34,8 +35,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   }
 
   private async _validateUser(email: string): Promise<PersonalAccount> {
-    //const user = await this.physicalPersonUserService.findByEmail(email);
-    const user = {} as PersonalAccount;
+    const user = await this.physicalPersonUserService.findByEmail(email);
 
     if (user) {
       return user;

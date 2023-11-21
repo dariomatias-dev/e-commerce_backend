@@ -1,4 +1,5 @@
 export class PersonalAccount {
+  id: string;
   firstName: string;
   lastName: string;
   dateOfBirth: Date;
@@ -11,6 +12,7 @@ export class PersonalAccount {
   address: string;
   cep: string;
   password: string;
+  roles: string[];
   termsOfUse: boolean;
   receiveMessages: boolean;
 }

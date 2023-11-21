@@ -38,7 +38,7 @@ export class BusinessAccountService {
     return account;
   }
 
-  async findOneByEmaiil(email: string) {
+  async findByEmaiil(email: string) {
     const account = await this.prisma.businessAccounts.findUnique({
       where: { email },
     });

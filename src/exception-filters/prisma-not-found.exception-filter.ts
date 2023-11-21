@@ -13,11 +13,11 @@ export class PrismaNotFoundExceptionFilter implements ExceptionFilter {
     exception.code === 'P2025'
       ? response.status(404).send({
           statusCode: 404,
-          message: messageError,
+          messageError,
         })
       : response.status(500).send({
           statusCode: 500,
-          message: messageError,
+          messageError,
         });
   }
 }

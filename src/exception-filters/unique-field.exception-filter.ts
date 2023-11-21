@@ -8,16 +8,20 @@ export class UniqueFieldExceptionFilter implements ExceptionFilter {
     const context = host.switchToHttp();
     const response = context.getResponse<FastifyReply>();
 
-    const errorMessage = exception.meta?.cause ?? exception.message;
+    const fieldName = exception.meta?.target;
+
+    const messageError = fieldName
+      ? `The value for the field ${fieldName} is already in use.`
+      : exception.message;
 
     exception.code === 'P2002'
       ? response.status(409).send({
           statusCode: 409,
-          errorMessage,
+          messageError,
         })
       : response.status(409).send({
           statusCode: 409,
-          errorMessage,
+          messageError,
         });
   }
 }

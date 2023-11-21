@@ -4,6 +4,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh_token.strategy';
+
 import { PersonalAccountService } from 'src/personal-account/personal-account.service';
 
 @Module({
@@ -16,6 +20,12 @@ import { PersonalAccountService } from 'src/personal-account/personal-account.se
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PersonalAccountService],
+  providers: [
+    PersonalAccountService,
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    RefreshTokenStrategy,
+  ],
 })
 export class AuthModule {}

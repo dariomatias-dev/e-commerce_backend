@@ -4,7 +4,7 @@ import { CartService } from './cart.service';
 
 import { UpdateCartDto } from './dto/update-cart.dto';
 
-import { UuidParamDto } from '../common/dto/uuid-param.dto';
+import { UuidParamDto } from '../../common/dto/uuid-param.dto';
 
 @Controller('cart')
 export class CartController {

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { ProductService } from './product.service';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { productSelection } from './selections/product.selection';
 
 describe('ProductService', () => {

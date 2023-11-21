@@ -12,8 +12,8 @@ import { TokenType } from 'src/enums/token_type';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 
-import { PersonalAccount } from 'src/personal-account/entities/personal-account.entity';
-import { PersonalAccountService } from 'src/personal-account/personal-account.service';
+import { PersonalAccount } from 'src/resources/personal-account/entities/personal-account.entity';
+import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
 
 @Injectable()
 export class AuthService {

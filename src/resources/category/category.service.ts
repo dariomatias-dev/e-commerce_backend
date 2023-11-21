@@ -5,7 +5,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 
 import { categorySelection } from './selections/category.selection';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class CategoryService {

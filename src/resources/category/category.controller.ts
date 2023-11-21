@@ -12,7 +12,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
-import { UuidParamDto } from '../common/dto/uuid-param.dto';
+import { UuidParamDto } from '../../common/dto/uuid-param.dto';
 
 @Controller()
 export class CategoryController {

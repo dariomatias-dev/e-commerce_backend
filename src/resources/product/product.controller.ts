@@ -16,7 +16,7 @@ import { FindAllByCategoriesDto } from './dto/find-all-by-categories.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-import { UuidParamDto } from '../common/dto/uuid-param.dto';
+import { UuidParamDto } from '../../common/dto/uuid-param.dto';
 
 @Controller()
 export class ProductController {

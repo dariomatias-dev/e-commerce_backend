@@ -6,8 +6,8 @@ import { UserFromJwt } from '../models/UserFromJwt';
 
 import { TokenType } from 'src/enums/token_type';
 
-import { PersonalAccount } from 'src/personal-account/entities/personal-account.entity';
-import { PersonalAccountService } from 'src/personal-account/personal-account.service';
+import { PersonalAccount } from 'src/resources/personal-account/entities/personal-account.entity';
+import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
 
 @Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(

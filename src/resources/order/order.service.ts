@@ -7,7 +7,7 @@ import { UpdateOrderItemDto } from './dto/update-order-item.dto';
 
 import { orderSelection } from './selections/order.selection';
 
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class OrderService {

@@ -8,7 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh_token.strategy';
 
-import { PersonalAccountService } from 'src/personal-account/personal-account.service';
+import { PersonalAccountService } from 'src/resources/personal-account/personal-account.service';
 
 @Module({
   imports: [

@@ -14,9 +14,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
   'refresh_token_strategy',
 ) {
-  constructor(
-    private readonly physicalPersonUserService: PersonalAccountService,
-  ) {
+  constructor(private readonly personalAccountService: PersonalAccountService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -35,7 +33,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   }
 
   private async _validateUser(email: string): Promise<PersonalAccount> {
-    const user = await this.physicalPersonUserService.findByEmail(email);
+    const user = await this.personalAccountService.findByEmail(email);
 
     if (user) {
       return user;

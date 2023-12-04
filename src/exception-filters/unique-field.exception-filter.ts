@@ -3,20 +3,24 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { FastifyReply } from 'fastify';
 
 @Catch(PrismaClientKnownRequestError)
-export class PrismaNotFoundExceptionFilter implements ExceptionFilter {
+export class UniqueFieldExceptionFilter implements ExceptionFilter {
   catch(exception: PrismaClientKnownRequestError, host: ArgumentsHost) {
     const context = host.switchToHttp();
     const response = context.getResponse<FastifyReply>();
 
-    const messageError = exception?.meta.cause ?? exception.message;
+    const fieldName = exception.meta?.target;
 
-    exception.code === 'P2025'
-      ? response.status(404).send({
-          statusCode: 404,
+    const messageError = fieldName
+      ? `The value for the field ${fieldName} is already in use.`
+      : exception.message;
+
+    exception.code === 'P2002'
+      ? response.status(409).send({
+          statusCode: 409,
           messageError,
         })
-      : response.status(500).send({
-          statusCode: 500,
+      : response.status(409).send({
+          statusCode: 409,
           messageError,
         });
   }

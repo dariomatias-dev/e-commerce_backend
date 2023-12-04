@@ -1,30 +1,36 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guards/jwt-guard.guard';
 import { PrismaModule } from './prisma/prisma.module';
 
-import { ProductModule } from './product/product.module';
-
-import { CategoryModule } from './category/category.module';
-
-import { CartModule } from './cart/cart.module';
-
-import { WishlistModule } from './wishlist/wishlist.module';
-
-import { OrderModule } from './order/order.module';
+import { BusinessAccountModule } from './resources/business-account/business-account.module';
+import { CartModule } from './resources/cart/cart.module';
+import { CategoryModule } from './resources/category/category.module';
+import { OrderModule } from './resources/order/order.module';
+import { PersonalAccountModule } from './resources/personal-account/personal-account.module';
+import { ProductModule } from './resources/product/product.module';
+import { WishlistModule } from './resources/wishlist/wishlist.module';
 
 @Module({
   imports: [
     PrismaModule,
+    AuthModule,
     ProductModule,
     CategoryModule,
     CartModule,
     WishlistModule,
     OrderModule,
+    PersonalAccountModule,
+    BusinessAccountModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

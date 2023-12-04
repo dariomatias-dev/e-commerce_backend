@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PhysicalPersonUsers {
+model PersonalAccounts {
   id              String   @id @default(uuid())
   firstName       String
   lastName        String
@@ -24,38 +24,58 @@ model PhysicalPersonUsers {
   address         String
   cep             String
   password        String
+  roles           String[]
   termsOfUse      Boolean
   receiveMessages Boolean
-  adminPassword   String?
+
+  refreshTokenId String?       @unique
+  refreshToken   RefreshToken? @relation(fields: [refreshTokenId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("physicalPersonUser")
+  @@map("personalAccount")
 }
 
-model LegalPersonUsers {
-  id                String  @id @default(uuid())
+model BusinessAccounts {
+  id                String   @id @default(uuid())
   fantasyName       String
   corporateName     String
-  cnpj              String  @unique
-  stateRegistration String  @unique
-  cpf               String  @unique
-  rg                String  @unique
-  email             String  @unique
-  phone             String  @unique
+  cnpj              String   @unique
+  stateRegistration String   @unique
+  cpf               String   @unique
+  rg                String   @unique
+  email             String   @unique
+  phone             String   @unique
   state             String
   city              String
   address           String
   cep               String
   password          String
+  roles             String[]
   termsOfUse        Boolean
   receiveMessages   Boolean
+
+  refreshTokenId String?       @unique
+  refreshToken   RefreshToken? @relation(fields: [refreshTokenId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("legalPersonUser")
+  @@map("businessAccount")
+}
+
+model RefreshToken {
+  id    String @id @default(uuid())
+  token String @unique
+
+  personalAccounts PersonalAccounts?
+  businessAccounts BusinessAccounts?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("refreshToken")
 }
 
 model Wishlists {
